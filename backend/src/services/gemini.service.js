@@ -24,29 +24,54 @@ export async function getGeminiChatReply({ message, history = [], apiKey, lang =
   }
 
   try {
-    const formattedHistory = (history || []).slice(-6).map(m => ({
-      role: m.sender === 'user' ? 'user' : 'model',
-      parts: [{ text: m.text }]
-    }));
+    // Sanitize and structure message turns for Gemini
+    const allTurns = [
+      ...(history || []).filter(m => m.text && m.text.trim()).map(m => ({
+        role: m.sender === 'user' ? 'user' : 'model',
+        parts: [{ text: m.text.trim() }]
+      })),
+      {
+        role: 'user',
+        parts: [{ text: message }]
+      }
+    ];
+
+    // Ensure strictly alternating roles and starts with 'user'
+    const contents = [];
+    for (const turn of allTurns) {
+      if (contents.length === 0) {
+        if (turn.role === 'user') contents.push(turn);
+      } else {
+        const prev = contents[contents.length - 1];
+        if (prev.role === turn.role) {
+          prev.parts[0].text += '\n' + turn.parts[0].text;
+        } else {
+          contents.push(turn);
+        }
+      }
+    }
+    if (contents.length === 0) {
+      contents.push({ role: 'user', parts: [{ text: message }] });
+    }
 
     const body = {
       system_instruction: {
         parts: [{ text: SYSTEM_PROMPT }]
       },
-      contents: [
-        ...formattedHistory,
-        {
-          role: 'user',
-          parts: [{ text: message }]
-        }
-      ],
+      contents: contents.slice(-6),
       generationConfig: {
         temperature: 0.7,
         maxOutputTokens: 900
       }
     };
 
-    const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+    const models = [
+      'gemini-3.5-flash-lite',
+      'gemini-3.1-flash-lite',
+      'gemini-flash-lite-latest',
+      'gemini-flash-latest',
+      'gemini-3.7-flash'
+    ];
     let lastError = null;
 
     for (const model of models) {
@@ -93,32 +118,35 @@ export async function getGeminiChatReply({ message, history = [], apiKey, lang =
  */
 async function getSmartKnowledgeFallback(message, lang = 'hi') {
   const isHi = lang === 'hi' || /[\u0900-\u097F]/.test(message);
-  const cleanMsg = message.trim();
+  const cleanMsg = (message || '').trim();
+  // Try Wikipedia Instant Summary ONLY for simple topic lookups (never for relational/distance questions)
+  const isQuestion = /(कितना|दूर|दूरी|राजधानी|मुद्रा|कैसे|क्यों|कब|कहाँ|क्या|बताओ|कौन|how|what|why|when|where|distance|capital|currency|far|cost|price|difference|tulan)/i.test(cleanMsg);
 
-  // Try Wikipedia Instant Summary for General Knowledge questions
-  try {
-    const wikiLang = isHi ? 'hi' : 'en';
-    let searchTerm = cleanMsg
-      .replace(/[?|।|,|!]/g, '')
-      .replace(/(क्या है|कौन है|कहाँ है|बताओ|जानकारी दो|what is|who is|where is|tell me about)/gi, '')
-      .trim();
+  if (!isQuestion) {
+    try {
+      const wikiLang = isHi ? 'hi' : 'en';
+      let searchTerm = cleanMsg
+        .replace(/[?|।|,|!]/g, '')
+        .trim();
 
-    if (searchTerm.length > 1) {
-      const wikiUrl = `https://${wikiLang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchTerm)}`;
-      const wikiRes = await fetch(wikiUrl);
-      if (wikiRes.ok) {
-        const wikiData = await wikiRes.json();
-        if (wikiData.extract) {
-          return {
-            reply: wikiData.extract,
-            model: 'knowledge_engine',
-            source: 'wikipedia'
-          };
+      if (searchTerm.length > 2 && searchTerm.length < 30) {
+        // 1. Direct Page Summary
+        const wikiUrl = `https://${wikiLang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchTerm)}`;
+        const wikiRes = await fetch(wikiUrl);
+        if (wikiRes.ok) {
+          const wikiData = await wikiRes.json();
+          if (wikiData.extract && wikiData.type === 'standard') {
+            return {
+              reply: wikiData.extract,
+              model: 'knowledge_engine',
+              source: 'wikipedia'
+            };
+          }
         }
       }
+    } catch (e) {
+      // ignore wiki error
     }
-  } catch (e) {
-    // ignore wiki error
   }
 
   // Rural Project Heuristics fallback

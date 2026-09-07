@@ -193,12 +193,49 @@ export default function GramAIDrawer({ isOpen, onClose, onOpen, lang }) {
     setIsThinking(true);
 
     let reply = "";
-    const activeKey = (import.meta.env.VITE_GEMINI_API_KEY || (typeof window !== 'undefined' ? localStorage.getItem('gv_gemini_api_key') : '') || '').trim();
+    const activeKey = (
+      import.meta.env.VITE_GEMINI_API_KEY ||
+      (typeof window !== 'undefined' ? localStorage.getItem('gv_gemini_api_key') : '') ||
+      ''
+    ).trim();
 
     try {
       // 1. Direct Call to Google Gemini (real AI)
       if (activeKey) {
-        const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+        // Sanitize and structure message turns for Gemini
+        const allTurns = updatedMessages
+          .filter(m => m.text && m.text.trim())
+          .map(msg => ({
+            role: msg.sender === 'user' ? 'user' : 'model',
+            parts: [{ text: msg.text.trim() }]
+          }));
+
+        // Ensure strictly alternating roles and starts with 'user'
+        const formattedContents = [];
+        for (const turn of allTurns) {
+          if (formattedContents.length === 0) {
+            if (turn.role === 'user') formattedContents.push(turn);
+          } else {
+            const prev = formattedContents[formattedContents.length - 1];
+            if (prev.role === turn.role) {
+              prev.parts[0].text += '\n' + turn.parts[0].text;
+            } else {
+              formattedContents.push(turn);
+            }
+          }
+        }
+        if (formattedContents.length === 0) {
+          formattedContents.push({ role: 'user', parts: [{ text: query }] });
+        }
+
+        const models = [
+          'gemini-3.5-flash-lite',
+          'gemini-3.1-flash-lite',
+          'gemini-flash-lite-latest',
+          'gemini-flash-latest',
+          'gemini-3.7-flash'
+        ];
+
         for (const m of models) {
           try {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${activeKey}`;
@@ -215,14 +252,11 @@ export default function GramAIDrawer({ isOpen, onClose, onOpen, lang }) {
 
 IMPORTANT RULES:
 1. GramVenture Site Topics (PRIMARY PURPOSE): When user asks about village businesses, dairy farming, poultry, mini mill, tailoring, grocery, solar, CSC center, PMEGP, Mudra loans, NABARD, subsidies, EMI, competitor gap, market demand, rural entrepreneurship — answer from BUILT-IN KNOWLEDGE ONLY. Do NOT use internet. Give COMPLETE, detailed answers. NEVER stop mid-sentence.
-2. Off-Topic Questions: If user asks something outside GramVenture scope (general knowledge, science, history, geography, tech, math, etc.), answer it FULLY and COMPLETELY, then add ONE line: "(नोट: मैं मुख्य रूप से ग्रामीण व्यापार सलाह के लिए बनाई गई हूँ, लेकिन इस सवाल का जवाब भी दे दिया!)" if Hindi, or "(Note: I am built for GramVenture rural business advice, but happy to answer this too!)" if English.
-3. Language: Hindi questions → pure Hindi (Devanagari). English/Hinglish → English. No asterisks, no markdown, no incomplete sentences.`
+2. Off-Topic Questions: If user asks something outside GramVenture scope (general knowledge, science, history, geography, tech, math, distance, capitals, etc.), answer it DIRECTLY, ACCURATELY, and COMPLETELY in friendly language! Never give irrelevant responses.
+3. Language: Hindi questions → pure Hindi (Devanagari). English/Hinglish → English. No asterisks, no markdown symbols that sound weird in voice output.`
                   }]
                 },
-                contents: updatedMessages.slice(-6).map(msg => ({
-                  role: msg.sender === 'user' ? 'user' : 'model',
-                  parts: [{ text: msg.text }]
-                })),
+                contents: formattedContents.slice(-6),
                 generationConfig: {
                   temperature: 0.7,
                   maxOutputTokens: 900
@@ -268,29 +302,33 @@ IMPORTANT RULES:
             }
           }
         } catch (e) {
-          // Backend might not be running, continue to live knowledge engine
+          // Backend might not be running
         }
       }
 
-      // 3. Live Knowledge Search for ANY question outside the project (Wikipedia API)
+      // 3. Fallback Knowledge Search ONLY for direct entity/topic lookup (never for complex questions)
       if (!reply) {
+        const isQuestion = /(कितना|दूर|दूरी|राजधानी|मुद्रा|कैसे|क्यों|कब|कहाँ|क्या|बताओ|कौन|how|what|why|when|where|distance|capital|currency|far|cost|price|difference|tulan)/i.test(query);
         const isHi = lang === 'hi' || /[\u0900-\u097F]/.test(query);
-        let searchTerm = query
-          .replace(/[?|।|,|!]/g, '')
-          .replace(/(क्या है|कौन है|कहाँ है|बताओ|जानकारी दो|what is|who is|where is|tell me about)/gi, '')
-          .trim();
 
-        if (searchTerm.length > 1) {
-          try {
+        // Only search Wikipedia if it's NOT a complex relational/distance/reasoning question
+        if (!isQuestion) {
+          let searchTerm = query
+            .replace(/[?|।|,|!]/g, '')
+            .trim();
+
+          if (searchTerm.length > 2 && searchTerm.length < 30) {
             const wikiLang = isHi ? 'hi' : 'en';
-            const wikiRes = await fetch(`https://${wikiLang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchTerm)}`);
-            if (wikiRes.ok) {
-              const wikiData = await wikiRes.json();
-              if (wikiData.extract) {
-                reply = wikiData.extract;
+            try {
+              const wikiRes = await fetch(`https://${wikiLang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchTerm)}`);
+              if (wikiRes.ok) {
+                const wikiData = await wikiRes.json();
+                if (wikiData.extract && wikiData.type === 'standard') {
+                  reply = wikiData.extract;
+                }
               }
-            }
-          } catch (e) {}
+            } catch (e) {}
+          }
         }
       }
 
@@ -307,8 +345,8 @@ IMPORTANT RULES:
           reply = "यदि विपरीत मौसम में बिक्री 20% घट भी जाए, तब भी सुरक्षित व्यवसाय मॉडल में आपकी शुद्ध मासिक बचत पर्याप्त रहेगी और किस्त आसानी से निकल जाएगी!";
         } else {
           reply = lang === 'hi'
-            ? "मैं ग्रामवेंचर AI सहायक हूँ। आप मुझसे अपने गाँव के व्यापार, लोन योजनाओं, बाज़ार की मांग या किसी भी विषय पर पूछ सकते हैं!"
-            : "I am GramVenture AI. Ask me about rural businesses, loans, market demand, or any general topic!";
+            ? `मुझे "${query}" के बारे में सटीक जानकारी नहीं मिल पाई। आप मुझसे गाँव के व्यापार, डेयरी, सिलाई, किराना, PMEGP या मुद्रा लोन योजनाओं के बारे में पूछ सकते हैं!`
+            : `I couldn't find specific details for "${query}". Please feel free to ask about rural businesses, dairy, tailoring, grocery, PMEGP or Mudra loans!`;
         }
       }
     } catch (err) {
