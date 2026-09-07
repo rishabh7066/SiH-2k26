@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment and Secrets — NEVER COMMIT
+.env
+.env.*
+*.env
+*.local
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+serviceAccount*.json
+credentials*.json
+
+# Logs
+*.log
+logs/
+
+# Build
+dist/
