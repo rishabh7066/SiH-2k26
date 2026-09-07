@@ -271,36 +271,53 @@ export default function Header({
           <span>{lang === 'en' ? 'हिन्दी' : 'English'}</span>
         </button>
 
-        {/* User Account / Logout Pill (Login button completely removed from Home page) */}
+        {/* User Account & Logout */}
         {user && onLogout && (
-          <button
-            onClick={onLogout}
-            style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '10px',
-              padding: '7px 12px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              color: '#334155',
-              transition: 'all 0.2s ease'
-            }}
-            title={isHi ? 'लॉगआउट करें' : 'Log Out'}
-          >
-            <span style={{ 
-              width: '8px', 
-              height: '8px', 
-              borderRadius: '50%', 
-              background: '#15803d', 
-              display: 'inline-block' 
-            }} />
-            <span>{user.username || user.name || 'User'}</span>
-            <span style={{ fontSize: '0.72rem', color: '#94a3b8', marginLeft: '2px' }}>⎋ Logout</span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <button
+              onClick={() => setActiveTab('profile')}
+              style={{
+                background: activeTab === 'profile' ? 'rgba(21, 128, 61, 0.12)' : '#f8fafc',
+                border: activeTab === 'profile' ? '1px solid #15803d' : '1px solid #e2e8f0',
+                borderRadius: '10px',
+                padding: '7px 12px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                color: activeTab === 'profile' ? '#15803d' : '#334155',
+                transition: 'all 0.2s ease'
+              }}
+              title={isHi ? 'प्रोफ़ाइल देखें' : 'View Profile'}
+            >
+              <span style={{ 
+                width: '8px', 
+                height: '8px', 
+                borderRadius: '50%', 
+                background: '#15803d', 
+                display: 'inline-block' 
+              }} />
+              <span>{user.username || user.name || 'User'}</span>
+            </button>
+            <button
+              onClick={onLogout}
+              style={{
+                background: '#fee2e2',
+                border: '1px solid #fecaca',
+                borderRadius: '10px',
+                padding: '7px 10px',
+                cursor: 'pointer',
+                fontSize: '0.76rem',
+                fontWeight: 600,
+                color: '#dc2626'
+              }}
+              title={isHi ? 'लॉगआउट करें' : 'Log Out'}
+            >
+              ⎋
+            </button>
+          </div>
         )}
 
         <button 
@@ -554,6 +571,30 @@ export default function Header({
               <PlayCircle size={15} color="#15803d" />
               <span>{isHi ? 'उदाहरण देखें (डेमो)' : 'View Sample Demo'}</span>
             </button>
+
+            {user && (
+              <button
+                onClick={() => { setActiveTab('profile'); setIsMobileMenuOpen(false); }}
+                style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '9px 12px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: activeTab === 'profile' ? '#f0fdf4' : 'transparent',
+                  color: activeTab === 'profile' ? '#15803d' : '#334155',
+                  fontWeight: activeTab === 'profile' ? 700 : 500,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <span>👤</span>
+                <span>{isHi ? 'मेरी प्रोफ़ाइल' : 'My Profile'}</span>
+              </button>
+            )}
 
             {user && onLogout && (
               <button

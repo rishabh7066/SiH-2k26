@@ -46,7 +46,7 @@ export async function getGeminiChatReply({ message, history = [], apiKey, lang =
       }
     };
 
-    const models = ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite'];
+    const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
     let lastError = null;
 
     for (const model of models) {
@@ -54,7 +54,10 @@ export async function getGeminiChatReply({ message, history = [], apiKey, lang =
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeKey}`;
         const response = await fetch(url, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'x-goog-api-key': activeKey
+          },
           body: JSON.stringify(body)
         });
 

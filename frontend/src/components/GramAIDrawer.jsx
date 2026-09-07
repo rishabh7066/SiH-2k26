@@ -198,13 +198,16 @@ export default function GramAIDrawer({ isOpen, onClose, onOpen, lang }) {
     try {
       // 1. Direct Call to Google Gemini (real AI)
       if (activeKey) {
-        const models = ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite'];
+        const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
         for (const m of models) {
           try {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${activeKey}`;
             const res = await fetch(url, {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              headers: { 
+                'Content-Type': 'application/json',
+                'x-goog-api-key': activeKey
+              },
               body: JSON.stringify({
                 system_instruction: {
                   parts: [{
@@ -234,6 +237,9 @@ IMPORTANT RULES:
                 reply = genText.replace(/\*\*/g, '').trim();
                 break;
               }
+            } else {
+              const errBody = await res.json().catch(() => ({}));
+              console.warn(`Gemini API error (${res.status}) on ${m}:`, errBody);
             }
           } catch (e) {
             console.warn(`Direct Gemini ${m} call failed:`, e);
