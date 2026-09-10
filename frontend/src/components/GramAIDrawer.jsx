@@ -10,6 +10,7 @@ import {
   Volume2,
   VolumeX
 } from 'lucide-react';
+import aiBotImg from '../images/ai.jpeg';
 
 // Helper: Pre-process text so Hindi TTS engine speaks numbers, symbols, and schemes fluently
 const prepareSpeechText = (rawText) => {
@@ -169,7 +170,7 @@ export default function GramAIDrawer({ isOpen, onClose, onOpen, lang }) {
   const QUICK_REPLIES = {
     "मेरे लिए सुरक्षित लोन कितना है?": "आपकी पूँजी पर PMEGP या मुद्रा योजना में 35% तक सब्सिडी और सुरक्षित लोन मिल सकता है। सलाह है कि मासिक किस्त आपके अनुमानित शुद्ध मुनाफे के 30% से कम रहे, ताकि किसी भी विपरीत परिस्थिति में कोई दबाव न आए। उदाहरण: 1 लाख की पूँजी पर PMEGP से 35,000 रुपए सब्सिडी मिल सकती है और 1.5 लाख तक लोन सुरक्षित रहता है।",
     "गाँव में सबसे ज़्यादा मुनाफे का क्या मौका है?": "गाँव में सबसे बड़े मुनाफे के मौके: 1. डेयरी व्यवसाय — रोजाना नकद आमदनी, सुरक्षा स्कोर 82/100. 2. घर-घर ताज़ा दूध/दही डिलीवरी — सुबह नियमित ग्राहक, कम पूँजी. 3. मिनी आटा/तेल मिल — पूरे साल नकद कमाई. 4. सिलाई केंद्र — त्योहारों में अच्छी कमाई. 5. CSC सेंटर — सरकारी सेवाएँ और नियमित आमदनी. सबसे ज़्यादा सुरक्षित: डेयरी!",
-    "अगर बिक्री 20% घट जाए तो क्या होगा?": "यदि विपरीत मौसम में बिक्री 20% घट भी जाए, तब सुरक्षित व्यवसाय मॉडल में आपकी शुद्ध मासिक बचत पर्याप्त रहेगी और किस्त आसानी से निकल जाएगी! इसीलिए DSCR अनुपात 1.3 से ऊपर रखना ज़रूरी है — अर्थात आपकी कमाई किस्त से कम-से-कम 1.3 गुना होनी चाहिए। GramVenture का बजट सिमुलेटर यही जांचता है कि विपरीत परिस्थिति में भी आपका व्यवसाय टिका रहे!",
+    "अगर बिक्री 20% घट जाए तो क्या होगा?": "यदि विपरीत मौसम में बिक्री 20% घट भी जाए, तब सुरक्षित व्यवसाय मॉडल में आपकी शुद्ध मासिक बचत पर्याप्त रहेगी और किस्त आसानी से निकल जाएगी! इसीलिए DSCR अनुपात 1.3 से ऊपर रखना ज़रूरी है — अर्थात आपकी कमाई किस्त से कम-से-कम 1.3 गुना होनी चाहिए। UdyamSaathi का बजट सिमुलेटर यही जांचता है कि विपरीत परिस्थिति में भी आपका व्यवसाय टिका रहे!",
     "डेयरी और सिलाई में कौन बेहतर है?": "डेयरी व्यवसाय: रोजाना नकद आमदनी, सुरक्षा स्कोर 82/100, लेकिन पूँजी ज़्यादा (1-3 लाख+) और तकनीकी ज्ञान चाहिए। सिलाई: कम पूँजी (20-50 हज़ार), त्योहारों में अच्छी कमाई, लेकिन पूरे साल नियमित आमदनी नहीं। अगर आपके पास ज़मीन और पशु हैं तो डेयरी स्पष्ट विजेता है; वरना सिलाई कम पूँजी में शुरुआत करने का सही विकल्प है।"
   };
 
@@ -248,11 +249,11 @@ export default function GramAIDrawer({ isOpen, onClose, onOpen, lang }) {
               body: JSON.stringify({
                 system_instruction: {
                   parts: [{
-                    text: `You are "GramVenture AI" (ग्रामवेंचर एआई) — an intelligent rural entrepreneurship advisor built specifically for the GramVenture platform.
+                    text: `You are "UdyamSaathi" (उद्यमसाथी) — an intelligent rural entrepreneurship advisor built specifically for the UdyamSaathi platform.
 
 IMPORTANT RULES:
-1. GramVenture Site Topics (PRIMARY PURPOSE): When user asks about village businesses, dairy farming, poultry, mini mill, tailoring, grocery, solar, CSC center, PMEGP, Mudra loans, NABARD, subsidies, EMI, competitor gap, market demand, rural entrepreneurship — answer from BUILT-IN KNOWLEDGE ONLY. Do NOT use internet. Give COMPLETE, detailed answers. NEVER stop mid-sentence.
-2. Off-Topic Questions: If user asks something outside GramVenture scope (general knowledge, science, history, geography, tech, math, distance, capitals, etc.), answer it DIRECTLY, ACCURATELY, and COMPLETELY in friendly language! Never give irrelevant responses.
+1. UdyamSaathi Site Topics (PRIMARY PURPOSE): When user asks about village businesses, dairy farming, poultry, mini mill, tailoring, agro-processing, solar, CSC center, PMEGP, Mudra loans, NABARD, subsidies, EMI, competitor gap, market demand, rural entrepreneurship — answer from BUILT-IN KNOWLEDGE ONLY. Do NOT use internet. Give COMPLETE, detailed answers. NEVER stop mid-sentence.
+2. Off-Topic Questions: If user asks something outside UdyamSaathi scope (general knowledge, science, history, geography, tech, math, distance, capitals, etc.), answer it DIRECTLY, ACCURATELY, and COMPLETELY in friendly language! Never give irrelevant responses.
 3. Language: Hindi questions → pure Hindi (Devanagari). English/Hinglish → English. No asterisks, no markdown symbols that sound weird in voice output.`
                   }]
                 },
@@ -345,8 +346,8 @@ IMPORTANT RULES:
           reply = "यदि विपरीत मौसम में बिक्री 20% घट भी जाए, तब भी सुरक्षित व्यवसाय मॉडल में आपकी शुद्ध मासिक बचत पर्याप्त रहेगी और किस्त आसानी से निकल जाएगी!";
         } else {
           reply = lang === 'hi'
-            ? `मुझे "${query}" के बारे में सटीक जानकारी नहीं मिल पाई। आप मुझसे गाँव के व्यापार, डेयरी, सिलाई, किराना, PMEGP या मुद्रा लोन योजनाओं के बारे में पूछ सकते हैं!`
-            : `I couldn't find specific details for "${query}". Please feel free to ask about rural businesses, dairy, tailoring, grocery, PMEGP or Mudra loans!`;
+            ? `मुझे "${query}" के बारे में सटीक जानकारी नहीं मिल पाई। आप मुझसे गाँव के व्यापार, डेयरी, सिलाई, खाद्य प्रसंस्करण, PMEGP या मुद्रा लोन योजनाओं के बारे में पूछ सकते हैं!`
+            : `I couldn't find specific details for "${query}". Please feel free to ask about rural businesses, dairy, tailoring, agro-processing, PMEGP or Mudra loans!`;
         }
       }
     } catch (err) {
@@ -388,7 +389,7 @@ IMPORTANT RULES:
 
   return (
     <>
-      {/* Floating AI Chatbot Icon Trigger at Bottom Right (Text removed, sleek bot icon) */}
+      {/* Floating AI Chatbot Icon Trigger at Bottom Right (ai.jpeg mascot logo) */}
       {!isOpen && (
         <button
           onClick={onOpen}
@@ -397,36 +398,48 @@ IMPORTANT RULES:
             position: 'fixed',
             bottom: '26px',
             right: '26px',
-            width: '58px',
-            height: '58px',
+            width: '64px',
+            height: '64px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #15803d, #166534)',
-            color: '#ffffff',
-            border: '2px solid rgba(255, 255, 255, 0.8)',
+            background: '#ffffff',
+            border: '2.5px solid #16a34a',
+            padding: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            boxShadow: '0 8px 30px rgba(21, 128, 61, 0.45)',
+            boxShadow: '0 8px 30px rgba(22, 163, 74, 0.45)',
             zIndex: 999,
             transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
           }}
           title={lang === 'hi' ? 'AI चैटबॉट से पूछें' : 'Ask AI Chatbot'}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.08) translateY(-2px)'}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1) translateY(-2px)'}
           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1) translateY(0)'}
         >
-          <Bot size={28} color="#ffffff" />
+          <img 
+            src={aiBotImg} 
+            alt="AI Logo" 
+            style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              display: 'block'
+            }}
+          />
           
           {/* Active green status dot */}
           <div style={{
             position: 'absolute',
             top: '2px',
             right: '2px',
-            width: '12px',
-            height: '12px',
+            width: '13px',
+            height: '13px',
             borderRadius: '50%',
             background: '#22c55e',
-            border: '2px solid #ffffff'
+            border: '2px solid #ffffff',
+            boxShadow: '0 0 6px #22c55e',
+            zIndex: 2
           }} />
         </button>
       )}
@@ -458,8 +471,8 @@ IMPORTANT RULES:
             justifyContent: 'space-between'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Bot size={20} color="#ffffff" />
+              <div style={{ width: 38, height: 38, borderRadius: '50%', overflow: 'hidden', background: '#ffffff', border: '2px solid rgba(255,255,255,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <img src={aiBotImg} alt="GramAI" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div>
                 <h4 style={{ margin: 0, fontSize: '0.94rem' }}>AI व्यापार सहायक</h4>
@@ -552,42 +565,66 @@ IMPORTANT RULES:
                   key={idx}
                   style={{
                     alignSelf: isAi ? 'flex-start' : 'flex-end',
-                    maxWidth: '85%',
-                    background: isAi ? '#f0fdf4' : '#15803d',
-                    color: isAi ? '#14532d' : '#ffffff',
-                    border: isAi ? '1px solid #bbf7d0' : 'none',
-                    borderRadius: '14px',
-                    padding: '10px 14px',
-                    fontSize: '0.82rem',
-                    lineHeight: 1.45,
-                    boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+                    maxWidth: '88%',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px'
                   }}
                 >
-                  <div>{m.text}</div>
                   {isAi && (
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '6px' }}>
-                      <button
-                        onClick={() => speakText(m.text)}
-                        style={{
-                          background: 'rgba(21, 128, 61, 0.08)',
-                          border: '1px solid rgba(21, 128, 61, 0.2)',
-                          borderRadius: '6px',
-                          padding: '2px 7px',
-                          cursor: 'pointer',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          color: '#15803d',
-                          fontSize: '0.68rem',
-                          fontWeight: 600
-                        }}
-                        title={lang === 'hi' ? "हिंदी में दोबारा सुनें" : "Listen in Hindi"}
-                      >
-                        <Volume2 size={12} />
-                        <span>{lang === 'hi' ? 'दोबारा सुनें' : 'Listen'}</span>
-                      </button>
-                    </div>
+                    <img 
+                      src={aiBotImg} 
+                      alt="AI" 
+                      style={{ 
+                        width: '26px', 
+                        height: '26px', 
+                        borderRadius: '50%', 
+                        objectFit: 'cover', 
+                        border: '1.5px solid #16a34a',
+                        flexShrink: 0,
+                        marginTop: '2px',
+                        background: '#ffffff'
+                      }} 
+                    />
                   )}
+                  <div
+                    style={{
+                      background: isAi ? '#f0fdf4' : '#15803d',
+                      color: isAi ? '#14532d' : '#ffffff',
+                      border: isAi ? '1px solid #bbf7d0' : 'none',
+                      borderRadius: '14px',
+                      padding: '10px 14px',
+                      fontSize: '0.82rem',
+                      lineHeight: 1.45,
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+                    }}
+                  >
+                    <div>{m.text}</div>
+                    {isAi && (
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '6px' }}>
+                        <button
+                          onClick={() => speakText(m.text)}
+                          style={{
+                            background: 'rgba(21, 128, 61, 0.08)',
+                            border: '1px solid rgba(21, 128, 61, 0.2)',
+                            borderRadius: '6px',
+                            padding: '2px 7px',
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            color: '#15803d',
+                            fontSize: '0.68rem',
+                            fontWeight: 600
+                          }}
+                          title={lang === 'hi' ? "हिंदी में दोबारा सुनें" : "Listen in Hindi"}
+                        >
+                          <Volume2 size={12} />
+                          <span>{lang === 'hi' ? 'दोबारा सुनें' : 'Listen'}</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}

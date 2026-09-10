@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import udyamLogo from '../images/Udyam (3).png';
 import { 
   X, 
   Send, 
@@ -17,8 +18,8 @@ export default function WhatsAppAIModal({ isOpen, onClose, lang }) {
       id: 1,
       sender: 'bot',
       text: isHi 
-        ? 'नमस्ते! 🙏 मैं ग्रामवेंचर एआई (GramVenture AI) हूँ। आप अपने गाँव का नाम और अपनी पूँजी बताकर किसी भी व्यापार, लोन सब्सिडी या मुनाफे के बारे में तुरंत पूछ सकते हैं।'
-        : 'Namaste! 🙏 I am GramVenture AI. Ask me anything about village businesses, safe loan EMI, or government subsidies directly on WhatsApp.',
+        ? 'नमस्ते! 🙏 मैं उद्यमसाथी (UdyamSaathi) हूँ। आप अपने गाँव का नाम और अपनी पूँजी बताकर किसी भी व्यापार, लोन सब्सिडी या मुनाफे के बारे में तुरंत पूछ सकते हैं।'
+        : 'Namaste! 🙏 I am UdyamSaathi. Ask me anything about village businesses, safe loan EMI, or government subsidies directly on WhatsApp.',
       time: '12:00 PM'
     }
   ]);
@@ -111,11 +112,21 @@ export default function WhatsAppAIModal({ isOpen, onClose, lang }) {
           justifyContent: 'space-between'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#25d366', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: 800 }}>
-              🌾
-            </div>
+            <img 
+              src={udyamLogo} 
+              alt="UdyamSaathi Logo" 
+              style={{
+                height: '40px',
+                width: 'auto',
+                objectFit: 'contain',
+                background: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                flexShrink: 0
+              }} 
+            />
             <div>
-              <div style={{ fontWeight: 700, fontSize: '0.98rem' }}>GramVenture AI WhatsApp</div>
+              <div style={{ fontWeight: 700, fontSize: '0.98rem' }}>UdyamSaathi WhatsApp</div>
               <div style={{ fontSize: '0.74rem', color: '#dcfce7' }}>
                 🟢 {isHi ? 'ऑनलाइन • 24x7 ग्रामीण सलाहकार' : 'Online • 24x7 Rural Advisor'}
               </div>
@@ -224,7 +235,7 @@ export default function WhatsAppAIModal({ isOpen, onClose, lang }) {
 
         {/* Open in real WhatsApp CTA */}
         <a 
-          href="https://wa.me/?text=GramVenture%20AI%20Village%20Business%20Report"
+          href="https://wa.me/?text=UdyamSaathi%20Village%20Business%20Report"
           target="_blank"
           rel="noopener noreferrer"
           style={{

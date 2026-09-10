@@ -1,5 +1,5 @@
 /**
- * GramVenture AI — Village Business Health Score & Competitor Intelligence Service
+ * UdyamSaathi — Village Business Health Score & Competitor Intelligence Service
  */
 
 // Standard rural business benchmarks (Population per shop threshold)

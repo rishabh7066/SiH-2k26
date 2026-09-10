@@ -9,7 +9,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Custom Modern SVG Icons for GramVenture Map
+// Custom Modern SVG Icons for UdyamSaathi Map
 export const createPinIcon = (type = 'shop', isSelected = false) => {
   let bg = '#ef4444'; // Red for competitor shops
   let border = '#991b1b';

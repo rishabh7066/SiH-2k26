@@ -8,7 +8,7 @@ const OVERPASS_ENDPOINTS = [
 ];
 
 /**
- * Maps OpenStreetMap tags into GramVenture rural business categories
+ * Maps OpenStreetMap tags into UdyamSaathi rural business categories
  */
 export function categorizeOsmTag(tags = {}) {
   const shop = (tags.shop || '').toLowerCase();
@@ -136,7 +136,7 @@ export async function fetchOsmBusinesses(lat, lng, radiusMeters = 3500) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': 'GramVenture-AI/1.0 (Rural-Enterprise-Advisory)'
+          'User-Agent': 'UdyamSaathi-AI/1.0 (Rural-Enterprise-Advisory)'
         },
         body: `data=${encodeURIComponent(query)}`,
         signal: controller.signal

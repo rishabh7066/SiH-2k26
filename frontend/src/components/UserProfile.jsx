@@ -1,4 +1,5 @@
 import React from 'react';
+import udyamLogo from '../images/Udyam (3).png';
 import { 
   User, 
   Mail, 
@@ -17,8 +18,8 @@ export default function UserProfile({ user, onLogout, onNavigate, lang = 'hi' })
   const isHi = lang === 'hi';
 
   const defaultUser = {
-    name: user?.name || user?.user_metadata?.full_name || 'GramVenture User',
-    email: user?.email || 'user@gramventure.ai',
+    name: user?.name || user?.user_metadata?.full_name || 'UdyamSaathi User',
+    email: user?.email || 'user@udyamsaathi.ai',
     username: user?.username || (user?.email ? user.email.split('@')[0] : 'user'),
     avatar: user?.avatar || null,
     created: 'Active Member'
@@ -84,7 +85,11 @@ export default function UserProfile({ user, onLogout, onNavigate, lang = 'hi' })
                   style={{ width: '100%', height: '100%', borderRadius: '20px', objectFit: 'cover' }} 
                 />
               ) : (
-                '🌾'
+                <img 
+                  src={udyamLogo} 
+                  alt={defaultUser.name} 
+                  style={{ width: '65%', height: '65%', objectFit: 'contain' }} 
+                />
               )}
             </div>
             <div>

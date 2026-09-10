@@ -41,16 +41,6 @@ export default function HeroLanding({
       img: 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=800&q=80'
     },
     {
-      titleHi: 'किराना व डिजिटल केंद्र',
-      titleEn: 'Kirana & Digital Services',
-      subHi: 'राशन, डीबीटी, आधार निकासी व बिल भुगतान',
-      subEn: 'Retail grocery, CSC services & banking point',
-      tagHi: 'नियमित नकद प्रवाह',
-      tagEn: 'Daily Cash Flow',
-      color: '#0284c7',
-      img: 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=800&q=80'
-    },
-    {
       titleHi: 'कृषि प्रसंस्करण व चक्की',
       titleEn: 'Agro-Processing & Flour Mill',
       subHi: 'आटा, मसाला पिसाई व तेल निष्कर्षण',
@@ -242,7 +232,7 @@ export default function HeroLanding({
           {/* Authentic Unsplash Image of Indian Rural Enterprise Landscape */}
           <img 
             src={dashboardHeroImg} 
-            alt="GramVenture AI Rural Indian Entrepreneurship"
+            alt="UdyamSaathi Rural Indian Entrepreneurship"
             loading="lazy"
             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
           />
@@ -767,7 +757,7 @@ export default function HeroLanding({
             {isHi ? 'सरल 3 चरण' : 'Simple 3-Step Process'}
           </span>
           <h2 style={{ fontSize: 'clamp(1.45rem, 3.5vw, 2.2rem)', color: '#0f172a', fontWeight: 800, lineHeight: 1.25 }}>
-            {isHi ? 'काम करने का आसान तरीका' : 'How GramVenture Works in 3 Simple Steps'}
+            {isHi ? 'काम करने का आसान तरीका' : 'How UdyamSaathi Works in 3 Simple Steps'}
           </h2>
           <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1.05rem)', color: '#64748b', marginTop: '10px', lineHeight: 1.6 }}>
             {isHi ? 'गाँव चुनिए, अपनी पूँजी बताइए, और पूरी वित्तीय रिपोर्ट तुरंत पाइए' : 'Select your village, enter your margin budget, and receive an instant bankable action report'}

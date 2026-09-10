@@ -12,7 +12,7 @@ export default function AuthIllustration() {
       tag: "Market",
       tagColor: "#1e293b",
       tagBg: "transparent",
-      headline: <>Discover What Your Village Needs with <strong>GramVenture</strong></>
+      headline: <>Discover What Your Village Needs with <strong>UdyamSaathi</strong></>
     },
     {
       title: "Business Roadmap",
@@ -21,7 +21,7 @@ export default function AuthIllustration() {
       tag: "Business",
       tagColor: "#1e293b",
       tagBg: "transparent",
-      headline: <>Discover the right business opportunities in your village with <strong>GramVenture</strong></>
+      headline: <>Discover the right business opportunities in your village with <strong>UdyamSaathi</strong></>
     },
     {
       title: "Micro Finance",
@@ -30,7 +30,7 @@ export default function AuthIllustration() {
       tag: "Funding",
       tagColor: "#1e293b",
       tagBg: "transparent",
-      headline: <>Access loans and schemes with <strong>GramVenture</strong></>
+      headline: <>Access loans and schemes with <strong>UdyamSaathi</strong></>
     }
   ];
 

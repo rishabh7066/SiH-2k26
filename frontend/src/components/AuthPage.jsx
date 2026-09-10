@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import udyamLogo from '../images/Udyam (3).png';
 import authIllustration from '../images/illustration.svg';
 import { 
   Eye, 
@@ -13,6 +14,7 @@ import {
   X 
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
+import TermsAndPrivacy from './TermsAndPrivacy';
 import './AuthPage.css';
 
 // Rotating context shown under the (static) meditation figure
@@ -23,7 +25,7 @@ const ILLUSTRATION_SLIDES = [
     percent: 84,
     tag: 'Market',
     headline: (
-      <>Discover What Your Village Needs with <strong>GramVenture</strong></>
+      <>Discover What Your Village Needs with <strong style={{ fontFamily: "'Playfair Display', 'Georgia', serif", color: '#14532d' }}>𝑼𝒅𝒚𝒂𝒎𝑺𝒂𝒂𝒕𝒉𝒊</strong></>
     ),
   },
   {
@@ -32,7 +34,7 @@ const ILLUSTRATION_SLIDES = [
     percent: 92,
     tag: 'Business',
     headline: (
-      <>Discover the right business opportunities in your village with <strong>GramVenture</strong></>
+      <>Discover the right business opportunities in your village with <strong style={{ fontFamily: "'Playfair Display', 'Georgia', serif", color: '#14532d' }}>𝑼𝒅𝒚𝒂𝒎𝑺𝒂𝒂𝒕𝒉𝒊</strong></>
     ),
   },
   {
@@ -41,7 +43,7 @@ const ILLUSTRATION_SLIDES = [
     percent: 87,
     tag: 'Funding',
     headline: (
-      <>Access loans and schemes with <strong>GramVenture</strong></>
+      <>Access loans and schemes with <strong style={{ fontFamily: "'Playfair Display', 'Georgia', serif", color: '#14532d' }}>𝑼𝒅𝒚𝒂𝒎𝑺𝒂𝒂𝒕𝒉𝒊</strong></>
     ),
   },
 ];
@@ -77,6 +79,7 @@ export default function AuthPage({
   const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSent, setForgotSent] = useState(false);
+  const [termsModalTab, setTermsModalTab] = useState(null);
 
   // Rotating illustration context
   const [slideIndex, setSlideIndex] = useState(0);
@@ -383,13 +386,25 @@ export default function AuthPage({
           className="auth-brand-logo"
           style={{ cursor: onBack ? 'pointer' : 'default' }}
           onClick={onBack ? onBack : undefined}
-          title={onBack ? 'Back to App' : "GramVenture"}
+          title={onBack ? 'Back to App' : "UdyamSaathi"}
         >
-          <div className="auth-brand-icon">
-            🌾
-          </div>
-          <div className="auth-brand-name">
-            Gram<span>Venture</span>
+          <img 
+            src={udyamLogo} 
+            alt="UdyamSaathi Logo" 
+            style={{
+              height: '46px',
+              width: 'auto',
+              objectFit: 'contain',
+              flexShrink: 0
+            }} 
+          />
+          <div style={{ minWidth: 0 }}>
+            <div className="auth-brand-name">
+              𝑼𝒅𝒚𝒂𝒎𝑺𝒂𝒂𝒕𝒉𝒊
+            </div>
+            <span className="auth-brand-sub">
+              ग्रामीण उद्यम सलाहकार
+            </span>
           </div>
         </div>
 
@@ -448,7 +463,7 @@ export default function AuthPage({
                 {mode === 'login' ? 'Welcome back!' : 'Create an account'}
               </h1>
               <p className="auth-subtitle">
-                Simplify your workflow and boost your productivity with <strong>GramVenture</strong>. Get started for free.
+                Simplify your workflow and boost your productivity with <strong style={{ fontFamily: "'Playfair Display', 'Georgia', serif", color: '#14532d' }}>𝑼𝒅𝒚𝒂𝒎𝑺𝒂𝒂𝒕𝒉𝒊</strong>. Get started for free.
               </p>
             </div>
 
@@ -557,7 +572,22 @@ export default function AuthPage({
                     required 
                   />
                   <label htmlFor="terms">
-                    I agree to GramVenture's <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>
+                    I agree to UdyamSaathi's{' '}
+                    <button 
+                      type="button" 
+                      onClick={(e) => { e.preventDefault(); setTermsModalTab('terms'); }}
+                      style={{ background: 'none', border: 'none', color: '#15803d', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer', padding: 0 }}
+                    >
+                      Terms of Service
+                    </button>
+                    {' '}and{' '}
+                    <button 
+                      type="button" 
+                      onClick={(e) => { e.preventDefault(); setTermsModalTab('privacy'); }}
+                      style={{ background: 'none', border: 'none', color: '#15803d', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer', padding: 0 }}
+                    >
+                      Privacy Policy
+                    </button>
                   </label>
                 </div>
               )}
@@ -764,6 +794,29 @@ export default function AuthPage({
                 {forgotSent ? 'Sending...' : 'Send Reset Link'}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Terms & Privacy Policy Dialog Modal */}
+      {termsModalTab && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(15, 23, 42, 0.75)',
+            backdropFilter: 'blur(6px)',
+            zIndex: 9999,
+            overflowY: 'auto',
+            padding: '24px 14px'
+          }}
+          onClick={() => setTermsModalTab(null)}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <TermsAndPrivacy 
+              initialTab={termsModalTab} 
+              onClose={() => setTermsModalTab(null)} 
+            />
           </div>
         </div>
       )}

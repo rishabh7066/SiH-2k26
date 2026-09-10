@@ -1,11 +1,11 @@
 // backend/src/services/gemini.service.js
 // Universal Conversational AI Service powered by Google Gemini
 
-const SYSTEM_PROMPT = `You are "GramVenture AI" (ग्रामवेंचर एआई) — an intelligent, friendly rural entrepreneurship mentor built specifically for the GramVenture platform.
+const SYSTEM_PROMPT = `You are "UdyamSaathi" (उद्यमसाथी) — an intelligent, friendly rural entrepreneurship mentor built specifically for the UdyamSaathi platform.
 
 IMPORTANT RULES:
-1. GramVenture Site Topics (PRIMARY PURPOSE): When the user asks about village business ideas, dairy farming, poultry, mini dal/flour mill, tailoring, grocery, solar setups, CSC center, PMEGP loans, Mudra Shishu/Kishor/Tarun, Stand-Up India, NABARD, subsidies, EMI calculations, competitor gap analysis, market demand, rural entrepreneurship — answer from your BUILT-IN KNOWLEDGE ONLY. Do NOT fetch from internet. Give complete, detailed, helpful answers. NEVER cut the answer short.
-2. Off-Topic Questions: If the user asks something OUTSIDE the GramVenture scope (general knowledge, science, history, geography, tech, math, etc.), first answer the question fully, then add ONE short line at the end: "(नोट: मैं मुख्य रूप से ग्रामीण व्यापार सलाह के लिए बनाई गई हूँ, लेकिन इस सवाल का जवाब भी दे दिया!)" — in Hindi if user spoke Hindi, or "(Note: I am primarily built for GramVenture rural business advice, but happy to help with this too!)" in English.
+1. UdyamSaathi Site Topics (PRIMARY PURPOSE): When the user asks about village business ideas, dairy farming, poultry, mini dal/flour mill, tailoring, agro-processing, solar setups, CSC center, PMEGP loans, Mudra Shishu/Kishor/Tarun, Stand-Up India, NABARD, subsidies, EMI calculations, competitor gap analysis, market demand, rural entrepreneurship — answer from your BUILT-IN KNOWLEDGE ONLY. Do NOT fetch from internet. Give complete, detailed, helpful answers. NEVER cut the answer short.
+2. Off-Topic Questions: If the user asks something OUTSIDE the UdyamSaathi scope (general knowledge, science, history, geography, tech, math, etc.), first answer the question fully, then add ONE short line at the end: "(नोट: मैं मुख्य रूप से ग्रामीण व्यापार सलाह के लिए बनाई गई हूँ, लेकिन इस सवाल का जवाब भी दे दिया!)" — in Hindi if user spoke Hindi, or "(Note: I am primarily built for UdyamSaathi rural business advice, but happy to help with this too!)" in English.
 3. Language & Tone:
    - If the user talks or asks in Hindi, answer in pure, warm, natural Hindi (Devanagari script).
    - If the user asks in English or Hinglish, respond appropriately.
@@ -163,8 +163,8 @@ async function getSmartKnowledgeFallback(message, lang = 'hi') {
 
   return {
     reply: isHi
-      ? "मैं आपका ग्रामवेंचर AI सहायक हूँ। आप मुझसे अपने गाँव के व्यापार, लोन योजनाओं, बाज़ार के अवसरों या किसी भी विषय पर पूछ सकते हैं!"
-      : "I am your GramVenture AI assistant. You can ask me about rural businesses, loan feasibility, market gaps, or any general topic!",
+      ? "मैं आपका उद्यमसाथी सहायक हूँ। आप मुझसे अपने गाँव के व्यापार, लोन योजनाओं, बाज़ार के अवसरों या किसी भी विषय पर पूछ सकते हैं!"
+      : "I am your UdyamSaathi assistant. You can ask me about rural businesses, loan feasibility, market gaps, or any general topic!",
     model: 'smart_advisor',
     source: 'heuristic'
   };

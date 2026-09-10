@@ -55,7 +55,7 @@ export default function AnalysisLoader({ onFinished }) {
       </div>
 
       <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '8px' }}>
-        GramVenture AI Decision Engine Running...
+        UdyamSaathi Decision Engine Running...
       </h2>
       <p style={{ fontSize: '0.86rem', color: '#64748b', marginBottom: '30px' }}>
         Synthesizing hyper-local market signals into a bank-ready feasibility score

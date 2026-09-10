@@ -1,7 +1,7 @@
 {
-  "name": "gramventure-backend",
+  "name": "udyamsaathi-backend",
   "version": "1.0.0",
-  "description": "GramVenture AI - Backend API Server",
+  "description": "UdyamSaathi - Backend API Server",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

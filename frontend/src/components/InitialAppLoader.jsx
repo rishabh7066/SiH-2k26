@@ -192,13 +192,14 @@ export default function InitialAppLoader({ onFinished }) {
       {phase === 'centered' && (
         <div className="gv-center-text">
           <h3 style={{
-            fontSize: '1.15rem',
+            fontSize: '1.28rem',
             fontWeight: 800,
             color: '#14532d',
             margin: '0 0 2px 0',
-            letterSpacing: '-0.02em'
+            letterSpacing: '-0.01em',
+            fontFamily: "'Playfair Display', 'Georgia', serif"
           }}>
-            GramVenture <span style={{ color: '#15803d' }}>AI</span>
+            𝑼𝒅𝒚𝒂𝒎𝑺𝒂𝒂𝒕𝒉𝒊
           </h3>
           <p style={{
             fontSize: '0.78rem',

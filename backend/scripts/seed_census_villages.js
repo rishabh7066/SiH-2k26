@@ -752,7 +752,7 @@ const CENSUS_VILLAGES = [
 ];
 
 async function seed() {
-  console.log('🌾 GramVenture AI — Seeding Census 2011 / data.gov.in Village Data...');
+  console.log('🌾 UdyamSaathi — Seeding Census 2011 / data.gov.in Village Data...');
 
   for (const village of CENSUS_VILLAGES) {
     try {

@@ -1,5 +1,5 @@
 /**
- * Centralized API utility for GramVenture frontend.
+ * Centralized API utility for UdyamSaathi frontend.
  * Automatically attaches Supabase JWT token to all requests.
  * 
  * Usage:

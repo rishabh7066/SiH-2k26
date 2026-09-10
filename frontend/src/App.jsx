@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
-import Header from './components/Header';
+import DashboardLayout from './components/DashboardLayout';
 import HeroLanding from './components/HeroLanding';
 import AssessmentWizard from './components/AssessmentWizard';
 import AnalysisLoader from './components/AnalysisLoader';
@@ -20,6 +20,7 @@ import AIBusinessAlerts from './components/AIBusinessAlerts';
 import WhatsAppAIModal from './components/WhatsAppAIModal';
 import UserProfile from './components/UserProfile';
 import AuthPage from './components/AuthPage';
+import TermsAndPrivacy from './components/TermsAndPrivacy';
 import { supabase } from './supabaseClient';
 
 export default function App() {
@@ -144,6 +145,7 @@ export default function App() {
     if (p.startsWith('/village-hub') || p.startsWith('/health')) return 'health_resources';
     if (p.startsWith('/profile')) return 'profile';
     if (p.startsWith('/wizard')) return 'wizard';
+    if (p.startsWith('/terms') || p.startsWith('/privacy')) return 'terms';
     return 'landing';
   };
 
@@ -158,6 +160,8 @@ export default function App() {
     else if (tab === 'dashboard') navigate('/dashboard');
     else if (tab === 'profile') navigate('/profile');
     else if (tab === 'wizard') navigate('/wizard');
+    else if (tab === 'terms') navigate('/terms');
+    else if (tab === 'privacy') navigate('/privacy');
     else navigate(tab.startsWith('/') ? tab : `/${tab}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -231,29 +235,25 @@ export default function App() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <DashboardLayout
+      activeTab={getActiveTab()}
+      onNavigate={handleNavigate}
+      user={currentUser}
+      onLogout={handleLogout}
+      lang={lang}
+      setLang={setLang}
+      onOpenAlerts={() => setIsAlertsOpen(true)}
+      onOpenWhatsApp={() => setIsWhatsAppOpen(true)}
+      onStartAssessment={handleStartWizard}
+      onTriggerDemo={handleTriggerDemo}
+    >
       {/* Website Entrance Loading Screen Animation if logged in */}
       {isInitialLoading && (
         <InitialAppLoader onFinished={() => setIsInitialLoading(false)} />
       )}
 
-      {/* Global Transparent Glass Header with 15 Features Nav */}
-      <Header 
-        lang={lang}
-        setLang={setLang}
-        onStartAssessment={handleStartWizard}
-        onTriggerDemo={handleTriggerDemo}
-        activeTab={getActiveTab()}
-        setActiveTab={handleNavigate}
-        onOpenAlerts={() => setIsAlertsOpen(true)}
-        onOpenWhatsApp={() => setIsWhatsAppOpen(true)}
-        user={currentUser}
-        onLogout={handleLogout}
-      />
-
       {/* Main Content Area with React Router Routes */}
-      <main style={{ flex: 1 }}>
-        <Routes>
+      <Routes>
           {/* 1. Landing View / Home */}
           <Route 
             path="/" 
@@ -376,10 +376,31 @@ export default function App() {
             } 
           />
 
+          {/* 11. Terms of Service & Privacy Policy */}
+          <Route 
+            path="/terms" 
+            element={
+              <TermsAndPrivacy 
+                initialTab="terms" 
+                lang={lang} 
+                onClose={() => handleNavigate('landing')} 
+              />
+            } 
+          />
+          <Route 
+            path="/privacy" 
+            element={
+              <TermsAndPrivacy 
+                initialTab="privacy" 
+                lang={lang} 
+                onClose={() => handleNavigate('landing')} 
+              />
+            } 
+          />
+
           {/* Fallback to Home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </main>
 
       {/* Feature 14: AI Business Alerts Modal */}
       {isAlertsOpen && (
@@ -425,14 +446,6 @@ export default function App() {
         onClose={() => setIsGramAIOpen(false)}
         lang={lang}
       />
-
-      {/* Sleek, Slim Transparent Footer */}
-      <Footer 
-        lang={lang}
-        onStartAssessment={handleStartWizard}
-        onTriggerDemo={handleTriggerDemo}
-        setActiveTab={handleNavigate}
-      />
-    </div>
+    </DashboardLayout>
   );
 }

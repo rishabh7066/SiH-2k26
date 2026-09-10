@@ -1,5 +1,4 @@
-// Mock data engine for GramVenture AI (SIH 26091)
-// Mock data engine for GramVenture AI (SIH 26091)
+// Mock data engine for UdyamSaathi (SIH 26091)
 // LOCKED STATE: Uttar Pradesh | LOCKED DISTRICT: Basti
 export const LOCATIONS = [
   {
@@ -9,7 +8,7 @@ export const LOCATIONS = [
     villages: [
       { name: "Ganeshpur", pop: 4250, households: 610, agro: "Paddy, Sugarcane, Dairy", marketDistKm: 4.5, lat: 26.8105, lng: 82.7214, block: "Basti Sadar" },
       { name: "Harraiya", pop: 6800, households: 980, agro: "Wheat, Mustard, Agro-Machinery", marketDistKm: 2.5, lat: 26.7933, lng: 82.4642, block: "Harraiya" },
-      { name: "Kaptanganj", pop: 5100, households: 740, agro: "Sugarcane, Dairy, Kirana", marketDistKm: 8.0, lat: 26.8361, lng: 82.5934, block: "Kaptanganj" },
+      { name: "Kaptanganj", pop: 5100, households: 740, agro: "Sugarcane, Dairy, Agro-Processing", marketDistKm: 8.0, lat: 26.8361, lng: 82.5934, block: "Kaptanganj" },
       { name: "Ramnagar", pop: 3900, households: 560, agro: "Paddy, Vegetables, Food Processing", marketDistKm: 14.0, lat: 26.9602, lng: 82.7485, block: "Ramnagar" },
       { name: "Saltaua Gopalpur", pop: 4600, households: 670, agro: "Dairy, Maize, CSC & Services", marketDistKm: 11.0, lat: 26.9123, lng: 82.7831, block: "Saltaua Gopalpur" },
       { name: "Vikramjot", pop: 3450, households: 490, agro: "Fisheries, Dairy, Riverine Agri", marketDistKm: 16.0, lat: 26.7540, lng: 82.3582, block: "Vikramjot" },
@@ -19,7 +18,7 @@ export const LOCATIONS = [
       { name: "Bhadawal", pop: 3200, households: 460, agro: "Paddy, Wheat, Mustard, Dairy", marketDistKm: 3.0, lat: 26.7811, lng: 82.5064, block: "Harraiya" },
       { name: "Parasrampur", pop: 4400, households: 620, agro: "Mustard, Wheat, Agro-Services", marketDistKm: 18.0, lat: 26.8820, lng: 82.3950, block: "Parasrampur" },
       { name: "Gaur", pop: 3750, households: 530, agro: "Vegetables, Dairy, Fish Pond", marketDistKm: 15.0, lat: 26.8600, lng: 82.5200, block: "Gaur" },
-      { name: "Rudauli", pop: 4300, households: 600, agro: "Paddy, Dairy, Grocery", marketDistKm: 10.5, lat: 26.9400, lng: 82.6800, block: "Rudauli" }
+      { name: "Rudauli", pop: 4300, households: 600, agro: "Paddy, Dairy, Food Processing", marketDistKm: 10.5, lat: 26.9400, lng: 82.6800, block: "Rudauli" }
     ]
   }
 ];
@@ -412,7 +411,7 @@ export const MARKET_LADDER = [
     level: "गाँव स्तर (Village Direct)",
     radius: "0-3 किमी",
     targetCustomers: "गणेशपुर गाँव के 610 परिवार, स्कूल, पंचायत व स्थानीय ग्रामीण",
-    products: "ताज़ा दूध, रोज़मर्रा का आटा व किराना",
+    products: "ताज़ा दूध, रोज़मर्रा का आटा व मसाले",
     paymentMode: "नकद, मासिक खाता, UPI",
     margin: "18% - 25%"
   },
@@ -495,7 +494,7 @@ export const AI_BUSINESS_ALERTS = [
     titleEn: "Navratri & Dussehra Surge Alert",
     descHi: "अगले 15 दिनों में पनीर, घी, कुट्टू का आटा व फल-मिठाई की मांग में 40% वृद्धि अनुमानित है। कच्चा माल अग्रिम स्टॉक करें।",
     descEn: "40% spike expected in paneer, ghee & buckwheat flour. Stock raw materials in advance.",
-    impactTrade: "डेयरी व किराना (Dairy & Grocery)",
+    impactTrade: "डेयरी व खाद्य प्रसंस्करण (Dairy & Agro-Processing)",
     action: "स्टॉक 30% बढ़ाएँ"
   },
   {
@@ -542,7 +541,7 @@ export const SCHEMES_EXPANDED = [
     },
     documents: [
       "आधार कार्ड व पैन कार्ड",
-      "विस्तृत प्रोजेक्ट रिपोर्ट (DPR - GramVenture द्वारा जनरेटेड)",
+      "विस्तृत प्रोजेक्ट रिपोर्ट (DPR - UdyamSaathi द्वारा जनरेटेड)",
       "जाति / श्रेणी प्रमाण पत्र (35% सब्सिडी हेतु)",
       "शैक्षणिक योग्यता प्रमाण पत्र (8वीं पास)",
       "ग्राम प्रधान या पंचायत का निवास प्रमाण पत्र"

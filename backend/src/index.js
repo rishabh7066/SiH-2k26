@@ -17,9 +17,23 @@ const PORT = process.env.PORT || 5000;
 // ── Security Middleware ────────────────────────────────────────────────────────
 app.use(helmet());
 
-// CORS — allow frontend
+// CORS — allow frontend (production URL and local dev ports)
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:5173',
+  'http://localhost:5175'
+].filter(Boolean).map(url => url.replace(/\/$/, ''));
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // allow mobile apps, postman, curl or server-to-server calls
+    if (!origin) return callback(null, true);
+    const cleanOrigin = origin.replace(/\/$/, '');
+    if (allowedOrigins.includes(cleanOrigin) || process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -57,7 +71,7 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
     status: 'ok',
-    message: 'GramVenture AI Backend is running 🚀',
+    message: 'UdyamSaathi Backend is running 🚀',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development'
   });
@@ -77,7 +91,7 @@ app.use(errorHandler);
 app.listen(PORT, '0.0.0.0', () => {
   console.log('');
   console.log('  ┌─────────────────────────────────────────┐');
-  console.log(`  │  🌾 GramVenture AI Backend               │`);
+  console.log(`  │  🌾 UdyamSaathi Backend                  │`);
   console.log(`  │  🚀 Running on http://localhost:${PORT}    │`);
   console.log(`  │  🔗 Health: /api/health                  │`);
   console.log(`  │  🌍 Env: ${(process.env.NODE_ENV || 'development').padEnd(30)}│`);

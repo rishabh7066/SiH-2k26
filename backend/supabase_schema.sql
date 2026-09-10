@@ -1,5 +1,5 @@
 -- ============================================================
--- GramVenture AI — Supabase Postgres Schema
+-- UdyamSaathi — Supabase Postgres Schema
 -- Run this in: Supabase Dashboard → SQL Editor → New Query
 -- ============================================================
 

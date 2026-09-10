@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import udyamLogo from '../images/Udyam (3).png';
 import { 
   Sparkles, 
   Languages, 
@@ -43,28 +44,22 @@ export default function Header({
       {/* Brand Logo */}
       <div 
         onClick={() => setActiveTab('landing')}
-        style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', minWidth: 0 }}
+        style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', minWidth: 0 }}
       >
-        <div style={{
-          width: 42,
-          height: 42,
-          borderRadius: '12px',
-          background: 'linear-gradient(135deg, #15803d, #166534)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#ffffff',
-          fontWeight: 'bold',
-          fontSize: '20px',
-          boxShadow: '0 4px 14px rgba(21, 128, 61, 0.25)',
-          flexShrink: 0
-        }}>
-          🌾
-        </div>
+        <img 
+          src={udyamLogo} 
+          alt="UdyamSaathi Logo" 
+          style={{
+            height: '48px',
+            width: 'auto',
+            objectFit: 'contain',
+            flexShrink: 0
+          }} 
+        />
         <div style={{ minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#14532d', letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
-              GramVenture <span style={{ color: '#15803d' }}>AI</span>
+            <span style={{ fontSize: '1.32rem', fontWeight: 800, color: '#14532d', letterSpacing: '-0.01em', whiteSpace: 'nowrap', fontFamily: "'Playfair Display', 'Georgia', serif" }}>
+              𝑼𝒅𝒚𝒂𝒎𝑺𝒂𝒂𝒕𝒉𝒊
             </span>
           </div>
           <p className="desktop-only" style={{ fontSize: '0.74rem', color: '#64748b', fontWeight: 600, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
