@@ -22,8 +22,10 @@ import { LOCATIONS, BUSINESS_CATEGORIES } from '../data/mockData';
 export default function AssessmentWizard({ 
   onComplete, 
   onCancel, 
-  initialState = {} 
+  initialState = {},
+  lang = 'hi'
 }) {
+  const isHi = lang === 'hi';
   const [step, setStep] = useState(1);
 
   // Form State (Locked strictly to Uttar Pradesh, District Basti)
@@ -148,21 +150,21 @@ export default function AssessmentWizard({
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
           <div>
             <span style={{ fontSize: '0.78rem', color: '#15803d', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Step {step} of 5
+              {isHi ? `चरण ${step} / 5` : `Step ${step} of 5`}
             </span>
             <h3 style={{ fontSize: '1.15rem', color: '#0f172a', margin: '2px 0 0 0' }}>
-              {step === 1 && "Select Village Location (स्थान चयन)"}
-              {step === 2 && "Available Margin Capital (अपनी जमा पूंजी)"}
-              {step === 3 && "Select Proposed Business (उद्यम का चयन)"}
-              {step === 4 && "Experience & Resources (अनुभव और साधन)"}
-              {step === 5 && "Primary Assessment Goals (प्राथमिक उद्देश्य)"}
+              {step === 1 && (isHi ? "गाँव व स्थान का चयन (Location)" : "Select Village Location")}
+              {step === 2 && (isHi ? "अपनी लगाने योग्य पूँजी (Margin Capital)" : "Available Margin Capital")}
+              {step === 3 && (isHi ? "प्रस्तावित व्यापार का चयन (Proposed Business)" : "Select Proposed Business")}
+              {step === 4 && (isHi ? "अनुभव और उपलब्ध साधन (Experience & Resources)" : "Experience & Resources")}
+              {step === 5 && (isHi ? "मूल्यांकन के प्राथमिक लक्ष्य (Assessment Goals)" : "Primary Assessment Goals")}
             </h3>
           </div>
           <button 
             onClick={onCancel} 
             style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.85rem' }}
           >
-            Cancel
+            {isHi ? 'रद्द करें' : 'Cancel'}
           </button>
         </div>
 
@@ -355,16 +357,22 @@ export default function AssessmentWizard({
         {step === 2 && (
           <div className="animate-fade-in">
             <p style={{ color: '#475569', fontSize: '0.92rem', marginBottom: '24px' }}>
-              Enter the own contribution (margin money) you can invest from personal savings or family:
+              {isHi ? "अपनी व्यक्तिगत बचत या परिवार से लगाने योग्य पूंजी (मार्जिन मनी) दर्ज करें:" : "Enter the own contribution (margin money) you can invest from personal savings or family:"}
             </p>
 
             <div style={{ textAlign: 'center', margin: '24px 0' }}>
-              <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>Your Available Capital (Margin Money)</span>
+              <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>
+                {isHi ? "आपकी लगाने योग्य पूँजी (मार्जिन मनी)" : "Your Available Capital (Margin Money)"}
+              </span>
               <div style={{ fontSize: '2.8rem', fontWeight: 800, color: '#15803d', margin: '8px 0' }}>
                 ₹ {Number(capital).toLocaleString('en-IN')}
               </div>
               <p style={{ fontSize: '0.82rem', color: '#64748b' }}>
-                At a 10% promoter contribution, this can support a project up to <strong>₹{(capital * 10).toLocaleString('en-IN')}</strong> under PMEGP/Mudra!
+                {isHi ? (
+                  <>10% उद्यमी अंशदान पर, यह PMEGP / मुद्रा योजना में <strong>₹{(capital * 10).toLocaleString('en-IN')}</strong> तक के प्रोजेक्ट का आधार बन सकती है!</>
+                ) : (
+                  <>At a 10% promoter contribution, this can support a project up to <strong>₹{(capital * 10).toLocaleString('en-IN')}</strong> under PMEGP/Mudra!</>
+                )}
               </p>
             </div>
 
@@ -380,7 +388,7 @@ export default function AssessmentWizard({
               />
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#94a3b8', marginTop: '6px' }}>
                 <span>₹25,000</span>
-                <span>₹1,00,000 (Recommended)</span>
+                <span>₹1,00,000 {isHi ? '(अनुशंसित)' : '(Recommended)'}</span>
                 <span>₹2,50,000</span>
                 <span>₹5,00,000</span>
               </div>
@@ -413,15 +421,15 @@ export default function AssessmentWizard({
         {/* STEP 3: Business Selection */}
         {step === 3 && (
           <div className="animate-fade-in">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '10px' }}>
               <p style={{ color: '#475569', fontSize: '0.92rem', margin: 0 }}>
-                Choose a proposed enterprise or let AI suggest based on village gap:
+                {isHi ? "अपना प्रस्तावित उद्यम चुनें या गाँव की कमी के आधार पर AI से सुझाव लें:" : "Choose a proposed enterprise or let AI suggest based on village gap:"}
               </p>
               
               <button 
                 onClick={() => {
                   setSuggestedMode(true);
-                  setBusinessCategory("dairy");
+                  setBusinessCategory("solar_pump");
                 }}
                 className="btn-secondary" 
                 style={{
@@ -433,7 +441,7 @@ export default function AssessmentWizard({
                   fontWeight: 700
                 }}
               >
-                ✨ I Don't Know — Suggest a Business
+                {isHi ? "✨ मुझे नहीं पता — सबसे सही व्यापार सुझाएँ" : "✨ I Don't Know — Suggest a Business"}
               </button>
             </div>
 
@@ -441,7 +449,9 @@ export default function AssessmentWizard({
               <div style={{ background: '#ecfdf5', border: '1px solid #bbf7d0', borderRadius: '12px', padding: '12px 16px', marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Sparkles size={20} color="#15803d" />
                 <span style={{ fontSize: '0.84rem', color: '#166534', fontWeight: 600 }}>
-                  AI Suggestion for {selectedVillage}: Dairy & Milk Products has highest opportunity gap (89/100) due to proximity to Highway 19 dhabas!
+                  {isHi 
+                    ? `✨ ${selectedVillage} के लिए AI का सुझाव: इस इलाके में सोलर पंप व कृषि मोटर रिपेयर का सबसे बड़ा अवसर स्कोर (84/100) है!`
+                    : `AI Suggestion for ${selectedVillage}: Solar Pump & Motor Repair has highest opportunity gap (84/100)!`}
                 </span>
               </div>
             )}
@@ -469,17 +479,17 @@ export default function AssessmentWizard({
                   >
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                       <span style={{ fontSize: '1.4rem' }}>
-                        {b.id === 'dairy' ? '🥛' : b.id === 'poultry' ? '🥚' : b.id === 'food_proc' ? '🌾' : b.id === 'tailoring' ? '✂️' : b.id === 'agro_retail' ? '🌱' : '🔧'}
+                        {b.emoji || (b.id === 'dairy' ? '🥛' : b.id === 'poultry' ? '🥚' : b.id === 'food_proc' ? '🌾' : b.id === 'tailoring' ? '✂️' : b.id === 'agro_retail' ? '🌱' : '🔧')}
                       </span>
                       <span className="rural-badge success" style={{ fontSize: '0.65rem' }}>
-                        {b.viabilityBase}/100 Fit
+                        {b.viabilityBase}/100 {isHi ? 'अवसर स्कोर' : 'Fit'}
                       </span>
                     </div>
                     <strong style={{ fontSize: '0.92rem', color: '#0f172a', display: 'block', marginBottom: '4px' }}>
-                      {b.name}
+                      {isHi ? (b.nameHi || b.name) : b.name}
                     </strong>
                     <p style={{ margin: 0, fontSize: '0.74rem', color: '#64748b' }}>
-                      Peak: {b.demandHigh}
+                      {isHi ? (b.demandHighHi || b.demandHigh) : `Peak: ${b.demandHigh}`}
                     </p>
                   </div>
                 );
@@ -492,18 +502,18 @@ export default function AssessmentWizard({
         {step === 4 && (
           <div className="animate-fade-in">
             <p style={{ color: '#475569', fontSize: '0.92rem', marginBottom: '20px' }}>
-              Your existing skills and physical assets reduce operational risk:
+              {isHi ? "आपका पूर्व अनुभव और उपलब्ध भौतिक साधन व्यापार के जोखिम को कम करते हैं:" : "Your existing skills and physical assets reduce operational risk:"}
             </p>
 
             <div style={{ marginBottom: '24px' }}>
               <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a', display: 'block', marginBottom: '10px' }}>
-                Prior Experience in this Trade:
+                {isHi ? "इस क्षेत्र में आपका पूर्व अनुभव:" : "Prior Experience in this Trade:"}
               </label>
               <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
                 {[
-                  { id: "none", label: "No prior experience (First-time)" },
-                  { id: "some", label: "Some experience / Family business" },
-                  { id: "extensive", label: "Extensive (3+ years working)" }
+                  { id: "none", labelHi: "कोई पूर्व अनुभव नहीं (पहली बार)", labelEn: "No prior experience (First-time)" },
+                  { id: "some", labelHi: "थोड़ा अनुभव / पारिवारिक काम का ज्ञान", labelEn: "Some experience / Family business" },
+                  { id: "extensive", labelHi: "गहरा अनुभव (3+ वर्ष कार्यानुभव)", labelEn: "Extensive (3+ years working)" }
                 ].map((exp) => (
                   <button
                     key={exp.id}
@@ -520,7 +530,7 @@ export default function AssessmentWizard({
                       cursor: 'pointer'
                     }}
                   >
-                    {exp.label}
+                    {isHi ? exp.labelHi : exp.labelEn}
                   </button>
                 ))}
               </div>
@@ -528,16 +538,16 @@ export default function AssessmentWizard({
 
             <div>
               <label style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a', display: 'block', marginBottom: '10px' }}>
-                Existing Available Assets / Infrastructure (Select all that apply):
+                {isHi ? "आपके पास उपलब्ध साधन व संसाधन (जो भी लागू हों, चुनें):" : "Existing Available Assets / Infrastructure (Select all that apply):"}
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
                 {[
-                  { id: "shop", label: "Own Commercial Shop / Shed" },
-                  { id: "land", label: "Available Agricultural Land" },
-                  { id: "equipment", label: "Machinery / Tools" },
-                  { id: "livestock", label: "Existing Livestock (Cows/Buffaloes)" },
-                  { id: "vehicle", label: "Transport Vehicle (Pickup / Bike)" },
-                  { id: "customers", label: "Established Local Contacts" }
+                  { id: "shop", labelHi: "अपनी खुद की पक्की दुकान / कमरा / शेड", labelEn: "Own Commercial Shop / Shed" },
+                  { id: "land", labelHi: "उपलब्ध कृषि भूमि / निजी जमीन", labelEn: "Available Agricultural Land" },
+                  { id: "equipment", labelHi: "आवश्यक मशीनरी / टूल्स / उपकरण", labelEn: "Machinery / Tools" },
+                  { id: "livestock", labelHi: "उपलब्ध मवेशी (गाय / भैंस / पशु)", labelEn: "Existing Livestock (Cows/Buffaloes)" },
+                  { id: "vehicle", labelHi: "परिवहन वाहन (पिकअप / बाइक / ई-रिक्शा)", labelEn: "Transport Vehicle (Pickup / Bike)" },
+                  { id: "customers", labelHi: "गाँव व बाजार में स्थापित ग्राहक संपर्क", labelEn: "Established Local Contacts" }
                 ].map((r) => {
                   const checked = resources.includes(r.id);
                   return (
@@ -564,7 +574,7 @@ export default function AssessmentWizard({
                         onChange={() => {}} 
                         style={{ accentColor: '#15803d' }} 
                       />
-                      <span>{r.label}</span>
+                      <span>{isHi ? r.labelHi : r.labelEn}</span>
                     </div>
                   );
                 })}
@@ -577,15 +587,39 @@ export default function AssessmentWizard({
         {step === 5 && (
           <div className="animate-fade-in">
             <p style={{ color: '#475569', fontSize: '0.92rem', marginBottom: '20px' }}>
-              What insights are most important to your decision today?
+              {isHi ? "आज आपके निर्णय के लिए कौन सी जानकारी सबसे महत्वपूर्ण है?" : "What insights are most important to your decision today?"}
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px', marginBottom: '28px' }}>
               {[
-                { id: "viability", title: "Business Viability & Feasibility", desc: "Is there enough local purchasing power & demand?" },
-                { id: "loan", title: "Loan Eligibility vs Affordability", desc: "How much loan can I get without cashflow stress?" },
-                { id: "opportunity", title: "Discover Opportunity Gaps", desc: "Find underserved customer niches instead of cloning competitors." },
-                { id: "compare", title: "Compare with Alternative Trades", desc: "Compare Dairy vs Tailoring vs Food Processing." }
+                { 
+                  id: "viability", 
+                  titleHi: "व्यापार व्यवहार्यता व स्थानीय मांग", 
+                  titleEn: "Business Viability & Feasibility", 
+                  descHi: "क्या गाँव में पर्याप्त मांग और क्रय शक्ति है?", 
+                  descEn: "Is there enough local purchasing power & demand?" 
+                },
+                { 
+                  id: "loan", 
+                  titleHi: "लोन पात्रता बनाम सुरक्षित किस्त", 
+                  titleEn: "Loan Eligibility vs Affordability", 
+                  descHi: "बिना तनाव के बैंक से कितना सुरक्षित लोन मिल सकता है?", 
+                  descEn: "How much loan can I get without cashflow stress?" 
+                },
+                { 
+                  id: "opportunity", 
+                  titleHi: "अछूते व्यापारिक अवसर (Opportunity Gaps)", 
+                  titleEn: "Discover Opportunity Gaps", 
+                  descHi: "दूसरों की नकल करने के बजाय खाली ग्राहक मांग खोजें।", 
+                  descEn: "Find underserved customer niches instead of cloning competitors." 
+                },
+                { 
+                  id: "compare", 
+                  titleHi: "अन्य व्यवसायों से सीधी तुलना", 
+                  titleEn: "Compare with Alternative Trades", 
+                  descHi: "डेयरी बनाम बुटीक बनाम सोलर रिपेयर आदि की तुलना।", 
+                  descEn: "Compare Dairy vs Tailoring vs Food Processing." 
+                }
               ].map((g) => {
                 const checked = goals.includes(g.id);
                 return (
@@ -602,10 +636,10 @@ export default function AssessmentWizard({
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                      <strong style={{ fontSize: '0.92rem', color: '#0f172a' }}>{g.title}</strong>
+                      <strong style={{ fontSize: '0.92rem', color: '#0f172a' }}>{isHi ? g.titleHi : g.titleEn}</strong>
                       <input type="checkbox" checked={checked} onChange={() => {}} style={{ accentColor: '#15803d' }} />
                     </div>
-                    <p style={{ fontSize: '0.78rem', color: '#64748b', margin: 0 }}>{g.desc}</p>
+                    <p style={{ fontSize: '0.78rem', color: '#64748b', margin: 0 }}>{isHi ? g.descHi : g.descEn}</p>
                   </div>
                 );
               })}
@@ -614,28 +648,36 @@ export default function AssessmentWizard({
             <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Target size={20} color="#15803d" />
               <p style={{ fontSize: '0.82rem', color: '#475569', margin: 0 }}>
-                Clicking <strong>Generate My Analysis</strong> will run our 6-phase hyper-local decision engine to build your personalized Feasibility Report!
+                {isHi ? (
+                  <><strong>विश्लेषण रिपोर्ट तैयार करें</strong> बटन दबाते ही हमारा AI इंजन आपके चयनित उद्यम व गाँव की 6-चरणीय व्यवहार्यता रिपोर्ट बनाएगा!</>
+                ) : (
+                  <>Clicking <strong>Generate My Analysis</strong> will run our 6-phase hyper-local decision engine to build your personalized Feasibility Report!</>
+                )}
               </p>
             </div>
           </div>
         )}
 
-        {/* Wizard Footer Navigation Controls */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginTop: '32px',
-          paddingTop: '20px',
-          borderTop: '1px solid #f1f5f9'
-        }}>
+        {/* Wizard Navigation Footer */}
+        <div 
+          className="wizard-footer-row"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '32px',
+            paddingTop: '20px',
+            borderTop: '1px solid #e2e8f0',
+            gap: '12px'
+          }}
+        >
           {step > 1 ? (
             <button 
               onClick={() => setStep(step - 1)} 
               className="btn-secondary"
             >
               <ArrowLeft size={16} />
-              Back
+              {isHi ? "← पीछे" : "Back"}
             </button>
           ) : (
             <div />
@@ -646,7 +688,7 @@ export default function AssessmentWizard({
               onClick={() => setStep(step + 1)} 
               className="btn-primary"
             >
-              Continue
+              {isHi ? "आगे बढ़ें" : "Continue"}
               <ArrowRight size={16} />
             </button>
           ) : (
@@ -656,7 +698,7 @@ export default function AssessmentWizard({
               style={{ background: 'linear-gradient(135deg, #15803d, #166534)', padding: '12px 28px' }}
             >
               <Sparkles size={16} />
-              Generate My Analysis ➔
+              {isHi ? "✨ विश्लेषण रिपोर्ट तैयार करें ➔" : "Generate My Analysis ➔"}
             </button>
           )}
         </div>

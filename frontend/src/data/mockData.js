@@ -1,36 +1,361 @@
 // Mock data engine for UdyamSaathi (SIH 26091)
 // LOCKED STATE: Uttar Pradesh | LOCKED DISTRICT: Basti
+export const ALL_VILLAGES = [
+  // Basti District (Locked Focus)
+  { id: "ganeshpur", name: "Ganeshpur", nameHi: "गणेशपुर", block: "Basti Sadar", district: "Basti", state: "Uttar Pradesh", pop: 4250, households: 610, agro: "Paddy, Sugarcane, Dairy", marketDistKm: 4.5, lat: 26.8105, lng: 82.7214 },
+  { id: "harraiya", name: "Harraiya", nameHi: "हरैया", block: "Harraiya", district: "Basti", state: "Uttar Pradesh", pop: 6800, households: 980, agro: "Wheat, Mustard, Agro-Machinery", marketDistKm: 2.5, lat: 26.7933, lng: 82.4642 },
+  { id: "bhadawal", name: "Bhadawal", nameHi: "भदावल", block: "Harraiya", district: "Basti", state: "Uttar Pradesh", pop: 3200, households: 460, agro: "Paddy, Wheat, Mustard, Dairy", marketDistKm: 3.0, lat: 26.7811, lng: 82.5064 },
+  { id: "kaptanganj", name: "Kaptanganj", nameHi: "कप्तानगंज", block: "Kaptanganj", district: "Basti", state: "Uttar Pradesh", pop: 5100, households: 740, agro: "Sugarcane, Dairy, Agro-Processing", marketDistKm: 8.0, lat: 26.8361, lng: 82.5934 },
+  { id: "ramnagar", name: "Ramnagar", nameHi: "रामनगर", block: "Ramnagar", district: "Basti", state: "Uttar Pradesh", pop: 3900, households: 560, agro: "Paddy, Vegetables, Food Processing", marketDistKm: 14.0, lat: 26.9602, lng: 82.7485 },
+  { id: "saltaua", name: "Saltaua Gopalpur", nameHi: "सलटौआ गोपालपुर", block: "Saltaua Gopalpur", district: "Basti", state: "Uttar Pradesh", pop: 4600, households: 670, agro: "Dairy, Maize, CSC & Services", marketDistKm: 11.0, lat: 26.9123, lng: 82.7831 },
+  { id: "vikramjot", name: "Vikramjot", nameHi: "विक्रमजोत", block: "Vikramjot", district: "Basti", state: "Uttar Pradesh", pop: 3450, households: 490, agro: "Fisheries, Dairy, Riverine Agri", marketDistKm: 16.0, lat: 26.7540, lng: 82.3582 },
+  { id: "dubolia", name: "Dubolia", nameHi: "दुबौलिया", block: "Dubolia", district: "Basti", state: "Uttar Pradesh", pop: 3800, households: 540, agro: "Vegetables, Pulses, Cattle Feed", marketDistKm: 13.0, lat: 26.6890, lng: 82.6120 },
+  { id: "bankaati", name: "Bankaati", nameHi: "बनकटी", block: "Bankaati", district: "Basti", state: "Uttar Pradesh", pop: 4100, households: 590, agro: "Wheat, Dairy, Rural Retail", marketDistKm: 9.0, lat: 26.7200, lng: 82.8500 },
+  { id: "kudraha", name: "Kudraha", nameHi: "कुदरहा", block: "Kudraha", district: "Basti", state: "Uttar Pradesh", pop: 3600, households: 510, agro: "Sugarcane, Paddy, Dairy", marketDistKm: 12.0, lat: 26.7050, lng: 82.8900 },
+  { id: "parasrampur", name: "Parasrampur", nameHi: "परसरामपुर", block: "Parasrampur", district: "Basti", state: "Uttar Pradesh", pop: 4400, households: 620, agro: "Mustard, Wheat, Agro-Services", marketDistKm: 18.0, lat: 26.8820, lng: 82.3950 },
+  { id: "gaur", name: "Gaur", nameHi: "गौर", block: "Gaur", district: "Basti", state: "Uttar Pradesh", pop: 3750, households: 530, agro: "Vegetables, Dairy, Fish Pond", marketDistKm: 15.0, lat: 26.8600, lng: 82.5200 },
+  { id: "rudauli", name: "Rudauli", nameHi: "रूदौली", block: "Rudauli", district: "Basti", state: "Uttar Pradesh", pop: 4300, households: 600, agro: "Paddy, Dairy, Food Processing", marketDistKm: 10.5, lat: 26.9400, lng: 82.6800 },
+
+  // Varanasi / Sewapuri Cluster
+  { id: "adampur", name: "Adampur", nameHi: "आदमपुर", block: "Sewapuri", district: "Varanasi", state: "Uttar Pradesh", pop: 3420, households: 485, agro: "Dairy, Vegetables, Handicraft", marketDistKm: 8.5, lat: 25.2845, lng: 82.7844 },
+  { id: "kapsethi", name: "Kapsethi", nameHi: "कपसेठी", block: "Sewapuri", district: "Varanasi", state: "Uttar Pradesh", pop: 4150, households: 590, agro: "Dairy, Retail, Handloom", marketDistKm: 5.0, lat: 25.3200, lng: 82.7600 },
+  { id: "baraki", name: "Baraki", nameHi: "बराकी", block: "Sewapuri", district: "Varanasi", state: "Uttar Pradesh", pop: 2890, households: 410, agro: "Paddy, Dairy, Poultry", marketDistKm: 7.0, lat: 25.2950, lng: 82.7700 },
+  { id: "rampur", name: "Rampur", nameHi: "रामपुर", block: "Kashi Vidyapeeth", district: "Varanasi", state: "Uttar Pradesh", pop: 4850, households: 690, agro: "Vegetables, Milk Supply, Retail", marketDistKm: 4.2, lat: 25.3100, lng: 83.0100 },
+  { id: "shivpur", name: "Shivpur", nameHi: "शिवपुर", block: "Arajiline", district: "Varanasi", state: "Uttar Pradesh", pop: 2750, households: 395, agro: "Dairy, Local Market, Agro-Trade", marketDistKm: 12.0, lat: 25.2200, lng: 82.9800 },
+  { id: "lohta", name: "Lohta", nameHi: "लोहता", block: "Arajiline", district: "Varanasi", state: "Uttar Pradesh", pop: 5900, households: 860, agro: "Weaving, Garments, Rural Hub", marketDistKm: 2.5, lat: 25.3300, lng: 82.9300 },
+  { id: "baragaon", name: "Baragaon", nameHi: "बड़ागांव", block: "Baragaon", district: "Varanasi", state: "Uttar Pradesh", pop: 8350, households: 1220, agro: "Paddy, Dairy, Agri-Equipment", marketDistKm: 15.0, lat: 25.4400, lng: 82.8200 },
+  { id: "chandpur", name: "Chandpur", nameHi: "चांदपुर", block: "Pindra", district: "Varanasi", state: "Uttar Pradesh", pop: 3120, households: 440, agro: "Mustard, Pulses, Dairy", marketDistKm: 9.2, lat: 25.5100, lng: 82.8900 },
+
+  // Chandauli District
+  { id: "mughal_sarai", name: "Mughal Sarai", nameHi: "मुगलसराय", block: "Mughal Sarai", district: "Chandauli", state: "Uttar Pradesh", pop: 10200, households: 1450, agro: "Agro-Trade, Retail, Dairy", marketDistKm: 1.5, lat: 25.2800, lng: 83.1200 },
+  { id: "sakaldiha", name: "Sakaldiha", nameHi: "सकलडीहा", block: "Sakaldiha", district: "Chandauli", state: "Uttar Pradesh", pop: 6650, households: 940, agro: "Paddy, Sugarcane, Dairy", marketDistKm: 1.2, lat: 25.3200, lng: 83.2500 },
+
+  // Mirzapur District
+  { id: "mirzapur_rural", name: "Mirzapur", nameHi: "मिर्जापुर", block: "Mirzapur", district: "Mirzapur", state: "Uttar Pradesh", pop: 7500, households: 1080, agro: "Carpet & Brass Handicrafts, Dairy", marketDistKm: 3.0, lat: 25.1500, lng: 82.5800 },
+  { id: "chunar", name: "Chunar", nameHi: "चुनार", block: "Narayanpur", district: "Mirzapur", state: "Uttar Pradesh", pop: 9400, households: 1380, agro: "Pottery, Dairy, Horticulture", marketDistKm: 2.0, lat: 25.1200, lng: 82.8800 },
+
+  // Jaunpur District
+  { id: "jaunpur_rural", name: "Jaunpur", nameHi: "जौनपुर", block: "Jaunpur", district: "Jaunpur", state: "Uttar Pradesh", pop: 6200, households: 890, agro: "Mustard, Dairy, Food Processing", marketDistKm: 4.0, lat: 25.7500, lng: 82.6800 },
+
+  // Gorakhpur District
+  { id: "pipraich", name: "Pipraich", nameHi: "पिपराइच", block: "Pipraich", district: "Gorakhpur", state: "Uttar Pradesh", pop: 7800, households: 1120, agro: "Sugarcane, Jaggery, Agro-Services", marketDistKm: 2.0, lat: 26.8300, lng: 83.5200 },
+
+  // Lucknow District
+  { id: "mohanlalganj", name: "Mohanlalganj", nameHi: "मोहनलालगंज", block: "Mohanlalganj", district: "Lucknow", state: "Uttar Pradesh", pop: 8900, households: 1280, agro: "Horticulture, Mango, Dairy", marketDistKm: 5.0, lat: 26.6800, lng: 80.9800 },
+
+  // Other Regions
+  { id: "bikram", name: "Bikram", nameHi: "बिक्रम", block: "Bikram", district: "Patna", state: "Bihar", pop: 5400, households: 780, agro: "Paddy, Dairy, Food Grain", marketDistKm: 6.0, lat: 25.4300, lng: 84.8500 },
+  { id: "sanwer", name: "Sanwer", nameHi: "सांवेर", block: "Sanwer", district: "Indore", state: "Madhya Pradesh", pop: 6100, households: 870, agro: "Soybean, Wheat, Cattle Feed", marketDistKm: 4.5, lat: 22.9800, lng: 75.8300 },
+  { id: "sinnar", name: "Sinnar Rural", nameHi: "सिन्नर", block: "Sinnar", district: "Nashik", state: "Maharashtra", pop: 7200, households: 1040, agro: "Onion, Grapes, Rural MSME", marketDistKm: 3.5, lat: 19.8500, lng: 74.0000 }
+];
+
 export const LOCATIONS = [
   {
     state: "Uttar Pradesh",
     district: "Basti",
     block: "Basti Sadar",
-    villages: [
-      { name: "Ganeshpur", pop: 4250, households: 610, agro: "Paddy, Sugarcane, Dairy", marketDistKm: 4.5, lat: 26.8105, lng: 82.7214, block: "Basti Sadar" },
-      { name: "Harraiya", pop: 6800, households: 980, agro: "Wheat, Mustard, Agro-Machinery", marketDistKm: 2.5, lat: 26.7933, lng: 82.4642, block: "Harraiya" },
-      { name: "Kaptanganj", pop: 5100, households: 740, agro: "Sugarcane, Dairy, Agro-Processing", marketDistKm: 8.0, lat: 26.8361, lng: 82.5934, block: "Kaptanganj" },
-      { name: "Ramnagar", pop: 3900, households: 560, agro: "Paddy, Vegetables, Food Processing", marketDistKm: 14.0, lat: 26.9602, lng: 82.7485, block: "Ramnagar" },
-      { name: "Saltaua Gopalpur", pop: 4600, households: 670, agro: "Dairy, Maize, CSC & Services", marketDistKm: 11.0, lat: 26.9123, lng: 82.7831, block: "Saltaua Gopalpur" },
-      { name: "Vikramjot", pop: 3450, households: 490, agro: "Fisheries, Dairy, Riverine Agri", marketDistKm: 16.0, lat: 26.7540, lng: 82.3582, block: "Vikramjot" },
-      { name: "Dubolia", pop: 3800, households: 540, agro: "Vegetables, Pulses, Cattle Feed", marketDistKm: 13.0, lat: 26.6890, lng: 82.6120, block: "Dubolia" },
-      { name: "Bankaati", pop: 4100, households: 590, agro: "Wheat, Dairy, Rural Retail", marketDistKm: 9.0, lat: 26.7200, lng: 82.8500, block: "Bankaati" },
-      { name: "Kudraha", pop: 3600, households: 510, agro: "Sugarcane, Paddy, Dairy", marketDistKm: 12.0, lat: 26.7050, lng: 82.8900, block: "Kudraha" },
-      { name: "Bhadawal", pop: 3200, households: 460, agro: "Paddy, Wheat, Mustard, Dairy", marketDistKm: 3.0, lat: 26.7811, lng: 82.5064, block: "Harraiya" },
-      { name: "Parasrampur", pop: 4400, households: 620, agro: "Mustard, Wheat, Agro-Services", marketDistKm: 18.0, lat: 26.8820, lng: 82.3950, block: "Parasrampur" },
-      { name: "Gaur", pop: 3750, households: 530, agro: "Vegetables, Dairy, Fish Pond", marketDistKm: 15.0, lat: 26.8600, lng: 82.5200, block: "Gaur" },
-      { name: "Rudauli", pop: 4300, households: 600, agro: "Paddy, Dairy, Food Processing", marketDistKm: 10.5, lat: 26.9400, lng: 82.6800, block: "Rudauli" }
-    ]
+    villages: ALL_VILLAGES
   }
 ];
 
 export const BUSINESS_CATEGORIES = [
-  { id: "dairy", name: "Dairy & Milk Products", icon: "Milk", viabilityBase: 78, roiMonths: 14, minCap: 75000, demandHigh: "Festival season, Daily morning" },
-  { id: "poultry", name: "Poultry Farming (Broiler/Desi)", icon: "Egg", viabilityBase: 74, roiMonths: 12, minCap: 60000, demandHigh: "Year-round, Weekend spikes" },
-  { id: "food_proc", name: "Spices & Food Processing Unit", icon: "Wheat", viabilityBase: 82, roiMonths: 16, minCap: 90000, demandHigh: "Post-harvest & winter" },
-  { id: "tailoring", name: "Garment & Tailoring Boutique", icon: "Scissors", viabilityBase: 71, roiMonths: 10, minCap: 40000, demandHigh: "Wedding & Festive months" },
-  { id: "agro_retail", name: "Agri-Input & Organic Fertilizer Shop", icon: "Sprout", viabilityBase: 79, roiMonths: 18, minCap: 120000, demandHigh: "Kharif & Rabi sowing" },
-  { id: "solar_pump", name: "Solar Pump & Electric Motor Repair", icon: "Wrench", viabilityBase: 84, roiMonths: 8, minCap: 50000, demandHigh: "Summer & Irrigation cycle" }
+  { 
+    id: "dairy", 
+    name: "Dairy & Milk Products", 
+    nameHi: "डेयरी एवं दुग्ध उत्पाद", 
+    icon: "Milk", 
+    emoji: "🥛",
+    viabilityBase: 78, 
+    roiMonths: 14, 
+    minCap: 75000, 
+    demandHigh: "Festival season, Daily morning",
+    demandHighHi: "दैनिक सुबह व शादी-त्योहारों में पीक मांग"
+  },
+  { 
+    id: "poultry", 
+    name: "Poultry Farming (Broiler/Desi)", 
+    nameHi: "पोल्ट्री फार्मिंग (देसी कड़कनाथ व ब्रायलर)", 
+    icon: "Egg", 
+    emoji: "🥚",
+    viabilityBase: 74, 
+    roiMonths: 12, 
+    minCap: 60000, 
+    demandHigh: "Year-round, Weekend spikes",
+    demandHighHi: "वर्षभर स्थिर मांग, सप्ताहांत व सर्दियों में पीक"
+  },
+  { 
+    id: "food_proc", 
+    name: "Spices & Food Processing Unit", 
+    nameHi: "मसाला पिसाई, तेल एक्सपेलर व फूड प्रोसेसिंग", 
+    icon: "Wheat", 
+    emoji: "🌾",
+    viabilityBase: 82, 
+    roiMonths: 16, 
+    minCap: 90000, 
+    demandHigh: "Post-harvest & winter",
+    demandHighHi: "दैनिक रसोई मांग, फसल कटाई के बाद पीक"
+  },
+  { 
+    id: "tailoring", 
+    name: "Garment & Tailoring Boutique", 
+    nameHi: "आधुनिक सिलाई व रेडीमेड गारमेंट बुटीक", 
+    icon: "Scissors", 
+    emoji: "✂️",
+    viabilityBase: 71, 
+    roiMonths: 10, 
+    minCap: 40000, 
+    demandHigh: "Wedding & Festive months",
+    demandHighHi: "लगन, शादी, स्कूल सत्र व त्योहारों में भारी मांग"
+  },
+  { 
+    id: "agro_retail", 
+    name: "Agri-Input & Organic Fertilizer Shop", 
+    nameHi: "खाद-बीज, जैविक कीटनाशक व कृषि इनपुट केंद्र", 
+    icon: "Sprout", 
+    emoji: "🌱",
+    viabilityBase: 79, 
+    roiMonths: 18, 
+    minCap: 120000, 
+    demandHigh: "Kharif & Rabi sowing",
+    demandHighHi: "खरीफ व रबी बुवाई सीजन में सर्वाधिक मांग"
+  },
+  { 
+    id: "solar_pump", 
+    name: "Solar Pump & Electric Motor Repair", 
+    nameHi: "सोलर पंप, मोटर वाइंडिंग व उपकरण रिपेयर", 
+    icon: "Wrench", 
+    emoji: "🔧",
+    viabilityBase: 84, 
+    roiMonths: 8, 
+    minCap: 50000, 
+    demandHigh: "Summer & Irrigation cycle",
+    demandHighHi: "गर्मी व सिंचाई चक्र में सबसे ज़्यादा कमाई"
+  }
 ];
+
+export const BUSINESS_INTELLIGENCE_PROFILES = {
+  dairy: {
+    id: "dairy",
+    nameHi: "डेयरी एवं दुग्ध उत्पाद",
+    nameEn: "Dairy & Milk Products",
+    icon: "🥛",
+    score: 78,
+    statusHi: "शर्तों के साथ सुरक्षित (Viable)",
+    statusEn: "Viable with Value-Addition",
+    overviewHi: (village) => `${village} और आस-पास के 10 किमी क्षेत्र में डेयरी व्यवसाय के लिए दूध की दैनिक घरेलू मांग और पास के हाईवे ढाबों व मिष्ठान्न भंडारों से अच्छी बिक्री की संभावना है (स्कोर 78/100)। हालांकि, इस इलाके में पहले से ही 15 पारंपरिक दूध विक्रेता सक्रिय हैं।`,
+    overviewEn: (village) => `High domestic demand for daily milk and highway dhabas within 10 km of ${village} (Score 78/100). However, traditional unorganized vendors exist.`,
+    adviceHi: "केवल कच्चा दूध बेचने की साधारण दुकान मत खोलिए। घर-घर सुबह पैक दूध पहुँचाने और ताज़ा पनीर, मक्खन व दही की सेवा शुरू करें। इसमें आम दूध के मुकाबले 40% ज़्यादा बचत होती है और मुकाबला भी बहुत कम है।",
+    adviceEn: "Do not just sell raw unpasteurized milk. Launch door-to-door packaged morning delivery and fresh paneer & curd subscriptions for 40% higher margins.",
+    metrics: [
+      { labelHi: "स्थानीय मांग", labelEn: "Local Demand", score: "82/100", subHi: "दैनिक व शादी के मौसम में", subEn: "Daily & festive peaks", color: "#15803d" },
+      { labelHi: "दुकानों की भीड़", labelEn: "Competition", score: "64/100", subHi: "मध्यम से ज़्यादा", subEn: "Moderate-High", color: "#d97706" },
+      { labelHi: "मुनाफे की गुंजाइश", labelEn: "Profit Margin", score: "80/100", subHi: "₹45,000+ बचत / माह", subEn: "₹45,000+ / mo", color: "#15803d" },
+      { labelHi: "चारे की निर्भरता", labelEn: "Fodder Risk", score: "58/100", subHi: "सूखे व हरे चारे पर ध्यान दें", subEn: "Requires local tie-up", color: "#ef4444" }
+    ],
+    competitors: [
+      { id: 1, name: "किसान दूध डेयरी (लोकल मंडी)", distKm: 1.2, type: "कच्चा दूध डिपो", pricePerLtr: "₹48/लीटर", saturation: "उच्च" },
+      { id: 2, name: "चौराहा मिल्क व टी सेंटर", distKm: 2.8, type: "पारंपरिक दुकान", pricePerLtr: "₹50/लीटर", saturation: "मध्यम" },
+      { id: 3, name: "साइकिल दूध विक्रेता संघ", distKm: 4.2, type: "घर-घर डिलीवरी", pricePerLtr: "₹46/लीटर", saturation: "उच्च" },
+      { id: 4, name: "शीत केंद्र / चिलिंग पॉइंट", distKm: 6.5, type: "चिलिंग पॉइंट", pricePerLtr: "₹52/लीटर", saturation: "कम" }
+    ],
+    seasonalAdviceHi: "सबसे ज़्यादा कमाई अक्टूबर से दिसंबर (दिवाली और लगन का मौसम) में होगी। मई-जून की भीषण गर्मी में दूध कम होता है, इसलिए अप्रैल में ही अतिरिक्त बचत व हरे चारे का प्रबंध रखें।",
+    seasonalAdviceEn: "Peak revenue is during festival & wedding months (Oct-Dec). Keep liquid buffer for dry fodder transition during peak summer (May-June).",
+    risks: [
+      { titleHi: "एक ही चारे सप्लायर पर निर्भर न रहें", descHi: "मंडी का व्यापारी सूखा चारा महंगा कर सकता है। आस-पास के किसानों से हरे चारे का सीधा अनुबंध रखें।" },
+      { titleHi: "केवल एक बड़े ग्राहक पर निर्भर न रहें", descHi: "सारा दूध किसी एक हलवाई को न दें। आधा दूध सीधे घरों में और आधा ढाबों को बाँटें।" }
+    ],
+    checklist: [
+      "गाँव के 15 परिवारों से सुबह ताज़ा दूध और पनीर पहुँचाने की बात तय करें।",
+      "हाईवे के ढाबों व मिष्ठान्न भंडारों से नियमित दूध सप्लाई का लिखित/मौखिक समझौता करें।",
+      "स्थानीय किसानों से हरे चारे की सीधी आपूर्ति तय करें।",
+      "दूध चिलर/डीप फ्रीज़र और स्वच्छ बर्तनों की व्यवस्था पूरी करें।",
+      "आधार कार्ड, पैन कार्ड, बैंक पासबुक और मुद्रा/PMEGP आवेदन तैयार रखें।"
+    ]
+  },
+  solar_pump: {
+    id: "solar_pump",
+    nameHi: "सोलर पंप व मोटर वाइंडिंग रिपेयर",
+    nameEn: "Solar Pump & Electric Motor Repair",
+    icon: "🔧",
+    score: 84,
+    statusHi: "अत्यधिक लाभदायक व कम प्रतिस्पर्धा",
+    statusEn: "Highly Viable / Low Competition",
+    overviewHi: (village) => `${village} और आस-पास के 10 किमी कृषि क्षेत्र में पीएम-कुसुम व निजी बोरवेल के 70+ सोलर पंप और 200+ सबमर्सिबल मोटरें हैं। मोटर जलने या कंट्रोलर खराब होने पर किसानों को 20 किमी दूर शहर जाना पड़ता है, जिससे स्थानीय रिपेयर सेवा की भारी मांग है (स्कोर 84/100)।`,
+    overviewEn: (village) => `Over 70+ solar pumps and 200+ submersible borewells exist around ${village}. Farmers currently travel 20km to city for motor winding and controller repair (Score 84/100).`,
+    adviceHi: "केवल दुकान पर बैठने के बजाय 'खेत पर जाकर ऑन-साइट रिपेयरिंग' की आपातकालीन सेवा दें। साथ ही सोलर इन्वर्टर, कैपेसिटर, स्टार्टर रिले और तांबे के तार (Copper Wire) का स्टॉक रखें। प्रति सर्विस 65% तक सीधा मार्जिन मिलता है।",
+    adviceEn: "Provide on-field emergency repair visits instead of a passive workshop. Stock copper wire, drive capacitors, and solar inverter fuses for quick turnaround.",
+    metrics: [
+      { labelHi: "स्थानीय मांग", labelEn: "Local Demand", score: "88/100", subHi: "सिंचाई व गर्मी सीजन में चरम", subEn: "Peak summer & sowing", color: "#15803d" },
+      { labelHi: "प्रतिस्पर्धा स्तर", labelEn: "Competition", score: "28/100", subHi: "गाँव में कोई आधुनिक सेंटर नहीं", subEn: "Very Low (No rivals)", color: "#15803d" },
+      { labelHi: "मुनाफे की गुंजाइश", labelEn: "Profit Margin", score: "85/100", subHi: "₹55,000+ बचत / माह", subEn: "₹55,000+ / mo", color: "#15803d" },
+      { labelHi: "स्पेयर पार्ट्स उपलब्धता", labelEn: "Parts Access", score: "72/100", subHi: "जिला मंडी से 1 दिन में डिलीवरी", subEn: "Next-day delivery", color: "#3b82f6" }
+    ],
+    competitors: [
+      { id: 1, name: "मिश्रा जी पंखा-कूलर रिपेयर (पारंपरिक)", distKm: 3.5, type: "साधारण वाइंडिंग", pricePerLtr: "₹600/मोटर", saturation: "कम" },
+      { id: 2, name: "तहसील चौराहा ऑटो-इलेक्ट्रिक वर्कशॉप", distKm: 7.2, type: "जनरल रिपेयर", pricePerLtr: "₹850/मोटर", saturation: "मध्यम" },
+      { id: 3, name: "जिला मुख्यालय सोलर अधिकृत सर्विस सेंटर", distKm: 18.0, type: "कंपनी ऑथोराइज्ड", pricePerLtr: "₹1,500/विजिट", saturation: "दूर (18 किमी)" }
+    ],
+    seasonalAdviceHi: "मार्च से जून (गर्मी की सिंचाई) और अक्टूबर-नवंबर (रबी बुवाई) में पीक कमाई होगी। बरसात के समय जब पंप कम चलते हैं, तब घरेलू इन्वर्टर, पंखे व जेनरेटर मरम्मत का काम संभालें।",
+    seasonalAdviceEn: "Maximum revenue peaks during pre-monsoon sowing (Mar-June) and winter irrigation (Oct-Nov). Balance monsoon months with home inverter & alternator repair.",
+    risks: [
+      { titleHi: "स्पेयर पार्ट्स की कमी से काम न रोकें", descHi: "ज़रूरी कैपेसिटर, स्टार्टर रिले और कॉपर वायर का बफर स्टॉक पहले से रखें।" },
+      { titleHi: "उधारी पर पूरा काम न करें", descHi: "किसानों से पार्ट्स का नकद भुगतान लें और लेबर चार्ज पर ही छोटी उधारी दें।" }
+    ],
+    checklist: [
+      "ब्लॉक के 20 प्रमुख बोरवेल व सोलर पंप वाले किसानों से संपर्क जोड़ें।",
+      "ऑटोमैटिक वाइंडिंग मशीन, डिजिटल क्लैंप मीटर और टेस्टिंग पैनल के कोटेशन लें।",
+      "जिला स्पेयर पार्ट्स थोक विक्रेता से डीलरशिप या 15 दिन की क्रेडिट तय करें।",
+      "पीएम-कुसुम व सौर ऊर्जा वेंडर्स के साथ लोकल सर्विस टाई-अप स्थापित करें।",
+      "मुद्रा योजना (किशोर लोन ₹2-3 लाख) के लिए बैंक आवेदन तैयार रखें।"
+    ]
+  },
+  poultry: {
+    id: "poultry",
+    nameHi: "पोल्ट्री फार्मिंग (देसी कड़कनाथ व ब्रायलर)",
+    nameEn: "Poultry Farming (Broiler/Desi)",
+    icon: "🥚",
+    score: 74,
+    statusHi: "मध्यम जोखिम, उच्च प्रतिफल (High Return)",
+    statusEn: "High Return / Moderate Risk",
+    overviewHi: (village) => `${village} और आस-पास के ढाबों, साप्ताहिक हाटों और ग्रामीण परिवारों में ताज़ा चिकन और शुद्ध देशी अंडों की निरंतर मांग है। गाँव में कोई संगठित फार्म न होने से माल बाहर से मंगाना पड़ता है (स्कोर 74/100)।`,
+    overviewEn: (village) => `High consumer demand for fresh chicken and organic desi eggs in ${village}. Currently supplied from distant mandi brokers (Score 74/100).`,
+    adviceHi: "केवल थोक ब्रायलर बेचने के बजाय 60% देसी कड़कनाथ/सोनाली मुर्गियां पालें। देसी मुर्गियों में बीमारी का खतरा कम होता है, चारा सस्ता पड़ता है और बाजार में 2.5 गुना अधिक दाम (₹350-400/किग्रा) मिलता है।",
+    adviceEn: "Focus on dual-purpose desi & Kadaknath breeds alongside broilers. Desi birds fetch 2.5x higher margins (₹350+/kg) with lower mortality rates.",
+    metrics: [
+      { labelHi: "स्थानीय मांग", labelEn: "Local Demand", score: "86/100", subHi: "सप्ताहांत व शादी सीजन में", subEn: "Weekend & winter spike", color: "#15803d" },
+      { labelHi: "प्रतिस्पर्धा स्तर", labelEn: "Competition", score: "40/100", subHi: "देसी फार्मिंग में शून्य प्रतिस्पर्धा", subEn: "Zero local desi farms", color: "#15803d" },
+      { labelHi: "मुनाफे की गुंजाइश", labelEn: "Profit Margin", score: "76/100", subHi: "₹48,000+ बचत / माह", subEn: "₹48,000+ / mo", color: "#15803d" },
+      { labelHi: "बायो-सिक्योरिटी", labelEn: "Disease Risk", score: "62/100", subHi: "टीकाकरण व शेड स्वच्छता आवश्यक", subEn: "Vaccination needed", color: "#ef4444" }
+    ],
+    competitors: [
+      { id: 1, name: "मंडी पोल्ट्री ब्रोकर्स व आढ़ती", distKm: 4.5, type: "थोक सप्लायर", pricePerLtr: "₹130/किग्रा जीवित", saturation: "उच्च" },
+      { id: 2, name: "हाईवे चिकन कॉर्नर व ढाबा", distKm: 2.2, type: "थोक खरीदार", pricePerLtr: "₹145/किग्रा", saturation: "मांग केंद्र" },
+      { id: 3, name: "साप्ताहिक ग्रामीण हाट विक्रेता", distKm: 3.8, type: "खुले बाजार में", pricePerLtr: "₹280/देशी पक्षी", saturation: "मध्यम" }
+    ],
+    seasonalAdviceHi: "सर्दियों (अक्टूबर से मार्च) में पोल्ट्री और अंडे की मांग चरम पर रहती है। अत्यधिक गर्मी (मई-जून) में शेड में फॉगर्स या घास के पर्दे लगाकर तापमान नियंत्रित रखें।",
+    seasonalAdviceEn: "Peak demand occurs in winter and festival months. Guard against heat stress in peak summer using foggers and cool water.",
+    risks: [
+      { titleHi: "संक्रामक बीमारी का जोखिम", descHi: "रानीखेत और गम्बोरो का टीका नियत समय पर लगवाएं और बाहरी व्यक्तियों का प्रवेश शेड में सीमित रखें।" },
+      { titleHi: "फीड की बढ़ती लागत", descHi: "स्थानीय मक्का, सोया और चोकर मिलाकर खुद दाना तैयार करें ताकि 20% फीड लागत बचे।" }
+    ],
+    checklist: [
+      "गाँव की आबादी से 200 मीटर दूर हवादार पोल्ट्री शेड की जगह तय करें।",
+      "प्रमाणित हैचरी से वैक्सीनेटेड चूजों की पहली खेप का कोटेशन लें।",
+      "पशु चिकित्सा अधिकारी से नियमित टीकाकरण चार्ट प्राप्त करें।",
+      "स्थानीय मक्का उत्पादकों से थोक दर पर दाने का प्रबंध करें।",
+      "नाबार्ड पोल्ट्री वेंचर कैपिटल या KCC फॉर्म बैंक में जमा करें।"
+    ]
+  },
+  food_proc: {
+    id: "food_proc",
+    nameHi: "मसाला पिसाई, तेल एक्सपेलर व मिनी फूड प्रोसेसिंग",
+    nameEn: "Spices & Food Processing Unit",
+    icon: "🌾",
+    score: 82,
+    statusHi: "अत्यधिक सुरक्षित व निरंतर मांग",
+    statusEn: "Highly Viable / Constant Demand",
+    overviewHi: (village) => `${village} कृषि बाहुल्य क्षेत्र है जहाँ सरसों, हल्दी, मिर्च, धान और गेहूं की भरपूर पैदावार होती है। वर्तमान में किसान कच्चा माल सस्ते में बेचते हैं और शहर से महंगे पैकेट उत्पाद लाते हैं (स्कोर 82/100)।`,
+    overviewEn: (village) => `Rich agricultural produce (mustard, turmeric, wheat) in ${village}. Tremendous value-addition margin by local grinding & clean packaging (Score 82/100).`,
+    adviceHi: "कच्चा माल सीधे स्थानीय किसानों से खरीदें। FSSAI मानक के अनुसार 'ग्राम-ब्रांड' की शुद्ध 250 ग्राम और 500 ग्राम मसाला व कच्ची घानी सरसों तेल की पैकेजिंग करें। 15 स्थानीय किराना दुकानों को 10% अतिरिक्त कमीशन देकर अपने उत्पाद रखवाएं।",
+    adviceEn: "Procure directly from local farmers at harvest. Pack hygienic 250g/500g branded pure spices and cold-pressed mustard oil with local retailer margins.",
+    metrics: [
+      { labelHi: "स्थानीय मांग", labelEn: "Local Demand", score: "91/100", subHi: "दैनिक रसोई की आवश्यक मांग", subEn: "Daily essential demand", color: "#15803d" },
+      { labelHi: "प्रतिस्पर्धा स्तर", labelEn: "Competition", score: "38/100", subHi: "शुद्ध स्थानीय पैकेट ब्रांड नहीं", subEn: "Low (No branded rival)", color: "#15803d" },
+      { labelHi: "मुनाफे की गुंजाइश", labelEn: "Profit Margin", score: "84/100", subHi: "₹62,000+ बचत / माह", subEn: "₹62,000+ / mo", color: "#15803d" },
+      { labelHi: "मशीनरी व बिजली", labelEn: "Power Access", score: "76/100", subHi: "3-फेज या सोलर आटा-तेल चक्की", subEn: "3-Phase connection", color: "#3b82f6" }
+    ],
+    competitors: [
+      { id: 1, name: "पुरानी डीजल आटा-चक्की (पारंपरिक)", distKm: 0.8, type: "कस्टम पिसाई मात्र", pricePerLtr: "₹4/किग्रा पिसाई", saturation: "मध्यम" },
+      { id: 2, name: "मंडी मसाला थोक डिपो", distKm: 6.0, type: "थोक व्यापारी", pricePerLtr: "₹240/किग्रा मसाला", saturation: "दूर" },
+      { id: 3, name: "ब्रांडेड पैकेट मसाला (MDH/Tata)", distKm: 1.0, type: "किराना दुकान", pricePerLtr: "₹400/किग्रा", saturation: "महंगा विकल्प" }
+    ],
+    seasonalAdviceHi: "फसल कटाई (अप्रैल में गेहूं, दिसंबर-जनवरी में सरसों व हल्दी) के समय सीधा सस्ता माल स्टॉक करें। बरसात के मौसम में मसाले को नमी से बचाने के लिए एयर-टाइट कंटेनर का उपयोग करें।",
+    seasonalAdviceEn: "Procure raw stock during harvest season for lowest price. Use moisture-proof packaging during monsoon months.",
+    risks: [
+      { titleHi: "गुणवत्ता व मिलावट का शक", descHi: "पारदर्शी पैकेजिंग और '100% शुद्ध स्थानीय मसाला' की गारंटी दें ताकि ब्रांड पर भरोसा बने।" },
+      { titleHi: "बिजली कटौती से उत्पादन रुकना", descHi: "3-फेज कनेक्शन के साथ बैकअप जनरेटर या सोलर ड्राइव का प्रावधान रखें।" }
+    ],
+    checklist: [
+      "मिनी पल्वराइज़र, तेल एक्सपेलर और हीट-सीलिंग मशीन के कोटेशन लें।",
+      "FSSAI बेसिक रजिस्ट्रेशन व उद्यम आधार (Udyam) का ऑनलाइन प्रमाण पत्र लें।",
+      "गाँव के 20 किसानों से सरसों व खड़े मसाले की सीधी खरीद का करार करें।",
+      "फूड-ग्रेड पाउच प्रिंटिंग और लेबल डिज़ाइन फाइनल करें।",
+      "PMEGP 35% सब्सिडी योजना के तहत जिला उद्योग केंद्र (DIC) में फाइल लगाएं।"
+    ]
+  },
+  tailoring: {
+    id: "tailoring",
+    nameHi: "आधुनिक सिलाई, रेडीमेड गारमेंट व बुटीक",
+    nameEn: "Garment & Tailoring Boutique",
+    icon: "✂️",
+    score: 71,
+    statusHi: "अल्प पूँजी में तुरंत चालू (Immediate Cashflow)",
+    statusEn: "Low Capex / Immediate Cashflow",
+    overviewHi: (village) => `${village} की महिलाएं, युवतियां और स्कूली छात्र आधुनिक फिटिंग, ब्लाउज डिजाइनिंग, फॉल-पीको और स्कूल यूनिफॉर्म के लिए 12 किमी दूर शहर जाते हैं (स्कोर 71/100)।`,
+    overviewEn: (village) => `High unmet demand for modern women's tailoring, school uniforms, and ready-made alterations around ${village} (Score 71/100).`,
+    adviceHi: "केवल साधारण सिलाई पर निर्भर न रहें। साथ में मैचिंग फॉल, अस्तर, बटन, धागे, कॉस्मेटिक्स और रेडीमेड बच्चों के कपड़ों का मिनी काउंटर रखें। शादी के सीजन में 2-3 महिला सहायिकाओं के साथ बल्क आर्डर लें।",
+    adviceEn: "Combine custom tailoring with boutique accessories (fall, lining, threads, cosmetics) and school uniform bulk contracts for steady year-round revenue.",
+    metrics: [
+      { labelHi: "स्थानीय मांग", labelEn: "Local Demand", score: "79/100", subHi: "स्कूल सत्र व शादी में पीक", subEn: "Wedding & school peaks", color: "#15803d" },
+      { labelHi: "प्रतिस्पर्धा स्तर", labelEn: "Competition", score: "52/100", subHi: "पारंपरिक दर्जी हैं, बुटीक शून्य", subEn: "Traditional tailors only", color: "#d97706" },
+      { labelHi: "मुनाफे की गुंजाइश", labelEn: "Profit Margin", score: "75/100", subHi: "₹38,000+ बचत / माह", subEn: "₹38,000+ / mo", color: "#15803d" },
+      { labelHi: "पूँजी आवश्यकता", labelEn: "Capital Ease", score: "88/100", subHi: "अल्प पूँजी में आसानी से शुरू", subEn: "Low initial cost", color: "#15803d" }
+    ],
+    competitors: [
+      { id: 1, name: "रामबली जेंट्स टेलर (चौपाल)", distKm: 0.5, type: "केवल पुरुष पैंट-शर्ट", pricePerLtr: "₹350/सूट", saturation: "मध्यम" },
+      { id: 2, name: "कस्बा लेडीज बुटीक सेंटर", distKm: 9.5, type: "फैंसी लेडीज बुटीक", pricePerLtr: "₹450/सूट", saturation: "दूर" }
+    ],
+    seasonalAdviceHi: "अक्टूबर से फरवरी (त्योहार व शादियां) और जून-जुलाई (स्कूल यूनिफॉर्म) में जबरदस्त काम आता है। इस दौरान पहले से कपड़े और धागों का स्टॉक रखें।",
+    seasonalAdviceEn: "Peak season during festivals, weddings (Oct-Feb) and school admissions (June-July). Stock fabric and lining in advance.",
+    risks: [
+      { titleHi: "सीजन के बाद काम कम होना", descHi: "ऑफ-सीजन में रेडीमेड बच्चों के कपड़े और घरेलू परदे/कुशन सिलाई पर ध्यान दें।" },
+      { titleHi: "कारीगरों की अनुपलब्धता", descHi: "स्थानीय स्वयं सहायता समूह (SHG) की महिलाओं को प्रशिक्षित कर सहयोगी बनाएं।" }
+    ],
+    checklist: [
+      "2 मोटर चालित सिलाई मशीनें, 1 इंटरलॉक/पीको मशीन और स्टीम प्रेस खरीदें।",
+      "गाँव के प्राथमिक व जूनियर हाई स्कूल से यूनिफॉर्म सिलाई का करार करें।",
+      "कपड़ा मंडी से थोक दर पर अस्तर, फॉल, जिप और धागे लाएं।",
+      "दुकान पर आधुनिक डिजाइन कैटलॉग व डिस्प्ले बोर्ड लगाएं।",
+      "मुद्रा योजना (शिशु ₹50,000 लोन) के लिए बैंक शाखा में आवेदन करें।"
+    ]
+  },
+  agro_retail: {
+    id: "agro_retail",
+    nameHi: "खाद, बीज, जैविक कीटनाशक व कृषि इनपुट केंद्र",
+    nameEn: "Agri-Input & Organic Fertilizer Shop",
+    icon: "🌱",
+    score: 79,
+    statusHi: "स्थिर व भरोसेमंद ग्रामीण व्यवसाय",
+    statusEn: "Stable & Trusted Rural Business",
+    overviewHi: (village) => `${village} के 500+ किसान उर्वरक, डीएपी, बीज व कीटनाशक के लिए हर बार ब्लॉक मंडी जाते हैं। गाँव में अधिकृत डिपो किसानों का समय और भाड़ा दोनों बचाएगा (स्कोर 79/100)।`,
+    overviewEn: (village) => `Over 500+ farming families in ${village} travel to block headquarters for fertilizer, certified seeds, and bio-inputs (Score 79/100).`,
+    adviceHi: "केवल रासायनिक खाद पर जोर न दें। इफको (IFFCO) नैनो यूरिया, सागरिका, बायो-फर्टिलाइजर और सूक्ष्म पोषक तत्वों का स्टॉक रखें। किसानों को 'सच्चा कृषि सलाहकार' बनकर उत्पाद बेचें, इससे पक्के ग्राहक बनेंगे।",
+    adviceEn: "Do not just sell generic chemicals. Stock IFFCO Nano Urea, organic micronutrients, and certified hybrid seeds with expert agri-consulting.",
+    metrics: [
+      { labelHi: "स्थानीय मांग", labelEn: "Local Demand", score: "94/100", subHi: "खरीफ व रबी बुवाई में भारी मांग", subEn: "Heavy Kharif/Rabi demand", color: "#15803d" },
+      { labelHi: "प्रतिस्पर्धा स्तर", labelEn: "Competition", score: "58/100", subHi: "समितियों पर समय से माल नहीं मिलता", subEn: "Govt societies out of stock", color: "#d97706" },
+      { labelHi: "मुनाफे की गुंजाइश", labelEn: "Profit Margin", score: "78/100", subHi: "₹58,000+ बचत / माह", subEn: "₹58,000+ / mo", color: "#15803d" },
+      { labelHi: "लाइसेंस व वर्किंग कैपिटल", labelEn: "Licensing", score: "65/100", subHi: "कृषि विभाग लाइसेंस व पीओएस मशीन", subEn: "Fertilizer license needed", color: "#ef4444" }
+    ],
+    competitors: [
+      { id: 1, name: "साधन सहकारी समिति (पैक्स)", distKm: 2.1, type: "सरकारी समिति", pricePerLtr: "सरकारी दर", saturation: "स्टॉक की कमी" },
+      { id: 2, name: "हरैया रोड किसान बीज भंडार", distKm: 4.8, type: "निजी दुकान", pricePerLtr: "MRP", saturation: "मध्यम" }
+    ],
+    seasonalAdviceHi: "जून-जुलाई (धान बुवाई) और नवंबर-दिसंबर (गेहूं/सरसों बुवाई) में 80% बिक्री होती है। इस समय नकदी और खाद का पूरा स्टॉक एडवांस में रखें।",
+    seasonalAdviceEn: "80% of sales occur in June-July and Nov-Dec. Maintain strong working capital and pre-booking with distributors.",
+    risks: [
+      { titleHi: "किसानों की उधारी का जोखिम", descHi: "उधारी की सख्त सीमा तय करें। नकद भुगतान पर 2% छूट देकर समय पर पैसे वसूलें।" },
+      { titleHi: "बिना लाइसेंस के बिक्री का जोखिम", descHi: "कृषि विभाग से खाद, बीज और कीटनाशक का अधिकृत लाइसेंस अनिवार्य रूप से लें।" }
+    ],
+    checklist: [
+      "जिला कृषि रक्षा अधिकारी कार्यालय से खाद-बीज लाइसेंस का आवेदन करें।",
+      "सड़क किनारे पक्की दुकान का रेंट एग्रीमेंट या खतौनी तैयार करें।",
+      "IFFCO और प्रमुख बीज कंपनियों के अधिकृत डिस्ट्रीब्यूटर से अनुबंध करें।",
+      "उर्वरक बिक्री के लिए अनिवार्य पीओएस (PoS) मशीन प्राप्त करें।",
+      "मुद्रा किशोर योजना (₹5 लाख वर्किंग कैपिटल) के लिए बैंक में फाइल लगाएं।"
+    ]
+  }
+};
 
 export const SCHEMES = [
   {

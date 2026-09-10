@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, CheckCircle2, Loader2 } from 'lucide-react';
 
-const ANALYSIS_STEPS = [
+const ANALYSIS_STEPS_EN = [
   { id: 1, title: "Understanding Village Geospatial Demographics", detail: "Resolving Census 2011 + local Panchayat data for household density..." },
   { id: 2, title: "Mapping Competitors & Vendor Density", detail: "Querying milk points, retail shops & mandi routes within 5km - 10km..." },
   { id: 3, title: "Estimating Local Purchasing Power & Demand", detail: "Evaluating rural income indicators, wedding season index & haat volumes..." },
-  { id: 4, title: "Detecting High-Margin Opportunity Gaps", detail: "Cross-referencing unmet service needs (Home delivery & fresh paneer)..." },
+  { id: 4, title: "Detecting High-Margin Opportunity Gaps", detail: "Cross-referencing unmet service needs & high-profit margin trades..." },
   { id: 5, title: "Structuring Loan & Verifying Scheme Eligibility", detail: "Applying 90% debt structure, PMEGP subsidy caps & moratorium..." },
   { id: 6, title: "Stress-Testing Affordability & Cash Flow Covenants", detail: "Verifying DSCR coverage (Eligibility Score vs Affordability Score)..." }
 ];
 
-export default function AnalysisLoader({ onFinished }) {
+const ANALYSIS_STEPS_HI = [
+  { id: 1, title: "गाँव की जनसांख्यिकी व बाज़ार का विश्लेषण", detail: "जनगणना और स्थानीय पंचायत डेटा से परिवारों व आबादी का आकलन..." },
+  { id: 2, title: "मौजूदा प्रतिस्पर्धियों और दुकानों की मैपिंग", detail: "गाँव और 5-10 किमी परिधि में मौजूदा दुकानों व मंडी रूट की जाँच..." },
+  { id: 3, title: "गाँव की क्रय शक्ति और स्थानीय मांग का अनुमान", detail: "ग्रामीण आय, साप्ताहिक हाट बाज़ार और मौसमी मांग की गणना..." },
+  { id: 4, title: "अधिक मुनाफ़े वाले अवसरों और खाली बाज़ार की पहचान", detail: "बिना प्रतिस्पर्धा वाले मुनाफ़ेदार व्यापारिक अवसरों का मिलान..." },
+  { id: 5, title: "बैंक लोन संरचना और सरकारी सब्सिडी पात्रता", detail: "PMEGP / मुद्रा योजना के तहत 90% तक लोन और सब्सिडी की गणना..." },
+  { id: 6, title: "सुरक्षित EMI और मासिक मुनाफ़े का स्ट्रेस-टेस्ट", detail: "मासिक किश्त (EMI) चुकाने की क्षमता और शुद्ध बचत की पुष्टि..." }
+];
+
+export default function AnalysisLoader({ onFinished, lang = 'hi' }) {
   const [currentStep, setCurrentStep] = useState(0);
+  const isHi = lang === 'hi';
+  const steps = isHi ? ANALYSIS_STEPS_HI : ANALYSIS_STEPS_EN;
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentStep(prev => {
-        if (prev < ANALYSIS_STEPS.length - 1) {
+        if (prev < steps.length - 1) {
           return prev + 1;
         } else {
           clearInterval(timer);
@@ -27,7 +38,7 @@ export default function AnalysisLoader({ onFinished }) {
     }, 450);
 
     return () => clearInterval(timer);
-  }, [onFinished]);
+  }, [onFinished, steps.length]);
 
   return (
     <div style={{
@@ -54,16 +65,18 @@ export default function AnalysisLoader({ onFinished }) {
         <Sparkles size={32} color="#15803d" className="animate-pulse-glow" />
       </div>
 
-      <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '8px' }}>
-        UdyamSaathi Decision Engine Running...
+      <h2 style={{ fontSize: '1.4rem', color: '#0f172a', marginBottom: '8px', fontWeight: 800 }}>
+        {isHi ? 'उद्यमसाथी एआई विश्लेषण जारी है...' : 'UdyamSaathi Decision Engine Running...'}
       </h2>
       <p style={{ fontSize: '0.86rem', color: '#64748b', marginBottom: '30px' }}>
-        Synthesizing hyper-local market signals into a bank-ready feasibility score
+        {isHi 
+          ? 'गाँव के वास्तविक बाज़ार डेटा से बैंक-मान्य व्यापार रिपोर्ट तैयार की जा रही है' 
+          : 'Synthesizing hyper-local market signals into a bank-ready feasibility score'}
       </p>
 
       {/* Steps checklist */}
       <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-        {ANALYSIS_STEPS.map((s, idx) => {
+        {steps.map((s, idx) => {
           const isDone = idx < currentStep;
           const isCurrent = idx === currentStep;
 

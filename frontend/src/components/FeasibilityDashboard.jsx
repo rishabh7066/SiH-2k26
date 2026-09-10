@@ -31,7 +31,8 @@ import {
   COMPETITORS_MOCK, 
   OPPORTUNITY_Gaps, 
   SEASONAL_DATA, 
-  SCHEMES 
+  SCHEMES,
+  BUSINESS_INTELLIGENCE_PROFILES
 } from '../data/mockData';
 import { calculateProjectFinance, simulateScenario } from '../utils/financeEngine';
 import { createPinIcon } from '../utils/leafletIcons';
@@ -71,15 +72,20 @@ export default function FeasibilityDashboard({
   assessmentData, 
   onReset, 
   onOpenGramAI, 
-  onTriggerDemo 
+  onTriggerDemo,
+  lang = 'hi'
 }) {
+  const isHi = lang === 'hi';
+  const categoryKey = assessmentData?.businessCategory || 'dairy';
+  const currentBizProfile = BUSINESS_INTELLIGENCE_PROFILES[categoryKey] || BUSINESS_INTELLIGENCE_PROFILES.dairy;
+
   const [activeTab, setActiveTab] = useState('overview');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // default open on desktop, togglable
   const [financeScheme, setFinanceScheme] = useState('pmegp');
   
   // Financial calculations
   const finance = calculateProjectFinance({
-    beneficiaryCapital: assessmentData.capital || 100000,
+    beneficiaryCapital: assessmentData?.capital || 100000,
     schemeId: financeScheme
   });
 
@@ -155,7 +161,7 @@ export default function FeasibilityDashboard({
             width: 64,
             height: 64,
             borderRadius: '50%',
-            background: 'conic-gradient(#15803d 0% 78%, #e2e8f0 78% 100%)',
+            background: `conic-gradient(#15803d 0% ${currentBizProfile.score}%, #e2e8f0 ${currentBizProfile.score}% 100%)`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -170,22 +176,22 @@ export default function FeasibilityDashboard({
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#15803d', lineHeight: 1 }}>78</span>
+              <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#15803d', lineHeight: 1 }}>{currentBizProfile.score}</span>
               <span style={{ fontSize: '0.55rem', color: '#64748b', fontWeight: 600 }}>/100</span>
             </div>
           </div>
 
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px', flexWrap: 'wrap' }}>
               <span className="rural-badge success" style={{ fontSize: '0.7rem', padding: '2px 8px' }}>
-                शर्तों के साथ सुरक्षित
+                {isHi ? currentBizProfile.statusHi : currentBizProfile.statusEn}
               </span>
               <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
-                • व्यवसाय: <strong>डेयरी एवं दुग्ध उत्पाद</strong>
+                • {isHi ? 'व्यवसाय:' : 'Enterprise:'} <strong>{currentBizProfile.icon} {isHi ? currentBizProfile.nameHi : currentBizProfile.nameEn}</strong>
               </span>
             </div>
             <h2 style={{ fontSize: '1.2rem', color: '#0f172a', margin: 0 }}>
-              {currentVillage}, ब्लॉक {currentBlock} ({currentDistrict})
+              {currentVillage}, {isHi ? `ब्लॉक ${currentBlock} (${currentDistrict})` : `Block ${currentBlock} (${currentDistrict})`}
             </h2>
           </div>
         </div>
@@ -411,40 +417,27 @@ export default function FeasibilityDashboard({
               <div style={{ gridColumn: 'span 8' }}>
                 <div className="glass-panel" style={{ padding: '24px', marginBottom: '20px' }}>
                   <h3 style={{ fontSize: '1.15rem', color: '#14532d', marginBottom: '12px' }}>
-                    व्यापार की स्थिति और मुख्य सलाह
+                    {isHi ? `${currentBizProfile.nameHi} — व्यापार की स्थिति और मुख्य सलाह` : `${currentBizProfile.nameEn} — Strategic Viability Advice`}
                   </h3>
                   <p style={{ fontSize: '0.92rem', color: '#334155', lineHeight: 1.6, marginBottom: '16px' }}>
-                    <strong>{currentVillage}</strong> और आस-पास के 10 किमी क्षेत्र में डेयरी व्यवसाय के लिए दूध की दैनिक घरेलू मांग और पास के हाईवे ढाबों से अच्छी बिक्री की संभावना है (स्कोर 78/100)। हालांकि, इस इलाके में पहले से ही 15 पारंपरिक दूध विक्रेता सक्रिय हैं।
+                    {isHi ? currentBizProfile.overviewHi(currentVillage) : currentBizProfile.overviewEn(currentVillage)}
                   </p>
                   
                   <div style={{ background: '#ecfdf5', borderLeft: '4px solid #15803d', padding: '14px 18px', borderRadius: '6px', marginBottom: '18px' }}>
-                    <strong style={{ color: '#166534', fontSize: '0.9rem' }}>💡 सबसे महत्वपूर्ण सलाह:</strong>
+                    <strong style={{ color: '#166534', fontSize: '0.9rem' }}>💡 {isHi ? 'सबसे महत्वपूर्ण सलाह:' : 'Top Recommendation:'}</strong>
                     <p style={{ margin: '4px 0 0 0', fontSize: '0.84rem', color: '#166534', lineHeight: 1.5 }}>
-                      केवल कच्चा दूध बेचने की साधारण दुकान मत खोलिए। <strong>घर-घर सुबह पैक दूध पहुँचाने और ताज़ा पनीर व दही</strong> की सेवा शुरू करें। इसमें आम दूध के मुकाबले 40% ज़्यादा बचत होती है और मुकाबला भी नहीं है।
+                      {isHi ? currentBizProfile.adviceHi : currentBizProfile.adviceEn}
                     </p>
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
-                    <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b' }}>स्थानीय मांग</span>
-                      <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#15803d' }}>82/100</div>
-                      <span style={{ fontSize: '0.68rem', color: '#10b981' }}>दैनिक व शादी के मौसम में</span>
-                    </div>
-                    <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b' }}>दुकानों की भीड़</span>
-                      <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#d97706' }}>64/100</div>
-                      <span style={{ fontSize: '0.68rem', color: '#f59e0b' }}>मध्यम से ज़्यादा</span>
-                    </div>
-                    <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b' }}>मुनाफे की गुंजाइश</span>
-                      <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#15803d' }}>80/100</div>
-                      <span style={{ fontSize: '0.68rem', color: '#10b981' }}>₹50,000+ बचत / माह</span>
-                    </div>
-                    <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
-                      <span style={{ fontSize: '0.72rem', color: '#64748b' }}>चारे की निर्भरता</span>
-                      <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ef4444' }}>58/100</div>
-                      <span style={{ fontSize: '0.68rem', color: '#ef4444' }}>सूखे चारे पर ध्यान दें</span>
-                    </div>
+                    {currentBizProfile.metrics.map((m, idx) => (
+                      <div key={idx} style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+                        <span style={{ fontSize: '0.72rem', color: '#64748b' }}>{isHi ? m.labelHi : m.labelEn}</span>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 800, color: m.color || '#15803d' }}>{m.score}</div>
+                        <span style={{ fontSize: '0.68rem', color: m.color || '#10b981' }}>{isHi ? m.subHi : m.subEn}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
@@ -630,20 +623,20 @@ export default function FeasibilityDashboard({
               <div style={{ gridColumn: 'span 4' }}>
                 <div className="glass-panel" style={{ padding: '24px' }}>
                   <h4 style={{ fontSize: '1rem', color: '#0f172a', marginBottom: '14px' }}>
-                    आस-पास के दूध विक्रेताओं की सूची
+                    {isHi ? `आस-पास के ${currentBizProfile.nameHi} से जुड़े प्रतिष्ठान` : `Nearby ${currentBizProfile.nameEn} Competitors & Hubs`}
                   </h4>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    {COMPETITORS_MOCK.map((c) => (
+                    {currentBizProfile.competitors.map((c) => (
                       <div key={c.id} style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                           <strong style={{ fontSize: '0.84rem', color: '#0f172a' }}>{c.name}</strong>
                           <span className="rural-badge info" style={{ fontSize: '0.62rem' }}>
-                            {c.distKm} किमी दूर
+                            {c.distKm} {isHi ? 'किमी दूर' : 'km away'}
                           </span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#64748b' }}>
-                          <span>मॉडल: {c.type}</span>
+                          <span>{isHi ? `प्रारूप: ${c.type}` : `Type: ${c.type}`}</span>
                           <span style={{ fontWeight: 600, color: '#15803d' }}>{c.pricePerLtr}</span>
                         </div>
                       </div>
@@ -651,7 +644,7 @@ export default function FeasibilityDashboard({
                   </div>
 
                   <div style={{ marginTop: '16px', background: '#ecfdf5', padding: '12px', borderRadius: '10px', border: '1px solid #bbf7d0', fontSize: '0.78rem', color: '#166534', lineHeight: 1.45 }}>
-                    💡 <strong>काम की बात:</strong> इन चारों दुकानों में से कोई भी ताज़ा पैक पनीर या सुबह-सुबह घर पर बोतल में दूध नहीं पहुँचाता। यही आपकी सबसे बड़ी ताकत बन सकती है!
+                    💡 <strong>{isHi ? 'काम की बात:' : 'Key Opportunity:'}</strong> {isHi ? currentBizProfile.adviceHi : currentBizProfile.adviceEn}
                   </div>
                 </div>
               </div>
@@ -1009,7 +1002,7 @@ export default function FeasibilityDashboard({
                   </div>
 
                   <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '10px', padding: '12px 16px', fontSize: '0.8rem', color: '#1e40af', lineHeight: 1.5 }}>
-                    🗓️ <strong>मौसम की सलाह:</strong> सबसे ज़्यादा कमाई <strong>अक्टूबर से दिसंबर (दिवाली और लगन का मौसम)</strong> में होगी। मई-जून की भीषण गर्मी में दूध कम होता है, इसलिए अप्रैल में ही ₹25,000 की अलग बचत तैयार रखें।
+                    🗓️ <strong>{isHi ? 'मौसम की सलाह:' : 'Seasonal Advice:'}</strong> {isHi ? currentBizProfile.seasonalAdviceHi : currentBizProfile.seasonalAdviceEn}
                   </div>
                 </div>
               </div>
@@ -1017,34 +1010,20 @@ export default function FeasibilityDashboard({
               <div style={{ gridColumn: 'span 4' }}>
                 <div className="glass-panel" style={{ padding: '24px' }}>
                   <h4 style={{ fontSize: '1rem', color: '#0f172a', marginBottom: '14px' }}>
-                    ज़रूरी सावधानियाँ (जोखिम से बचाव)
+                    {isHi ? 'ज़रूरी सावधानियाँ (जोखिम से बचाव)' : 'Key Operational Risks & Mitigations'}
                   </h4>
 
-                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '12px', marginBottom: '14px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                      <AlertTriangle size={16} color="#dc2626" />
-                      <strong style={{ fontSize: '0.84rem', color: '#991b1b' }}>एक ही चारे वाले पर निर्भर न रहें</strong>
+                  {currentBizProfile.risks.map((r, idx) => (
+                    <div key={idx} style={{ background: idx === 0 ? '#fef2f2' : '#fffbeb', border: `1px solid ${idx === 0 ? '#fecaca' : '#fde68a'}`, borderRadius: '10px', padding: '12px', marginBottom: '14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                        <AlertTriangle size={16} color={idx === 0 ? '#dc2626' : '#d97706'} />
+                        <strong style={{ fontSize: '0.84rem', color: idx === 0 ? '#991b1b' : '#92400e' }}>{isHi ? r.titleHi : r.titleEn}</strong>
+                      </div>
+                      <p style={{ fontSize: '0.76rem', color: idx === 0 ? '#7f1d1d' : '#78350f', margin: '0 0 6px 0', lineHeight: 1.45 }}>
+                        {isHi ? r.descHi : r.descEn}
+                      </p>
                     </div>
-                    <p style={{ fontSize: '0.76rem', color: '#7f1d1d', margin: '0 0 6px 0', lineHeight: 1.45 }}>
-                      मंडी का एक ही व्यापारी 70% सूखा चारा बेचता है। यदि वह दाम बढ़ा दे तो आपका नुकसान हो सकता है।
-                    </p>
-                    <span style={{ fontSize: '0.72rem', color: '#15803d', fontWeight: 600 }}>
-                      बचाव: आस-पास के 2 किसानों से हरे चारे की सीधी आपूर्ति तय करें।
-                    </span>
-                  </div>
-
-                  <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '10px', padding: '12px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                      <AlertTriangle size={16} color="#d97706" />
-                      <strong style={{ fontSize: '0.84rem', color: '#92400e' }}>केवल एक बड़े ग्राहक पर निर्भर न रहें</strong>
-                    </div>
-                    <p style={{ fontSize: '0.76rem', color: '#78350f', margin: '0 0 6px 0', lineHeight: 1.45 }}>
-                      सारा दूध किसी एक चिलिंग प्लांट या मिठाई वाले को न दें। यदि वे भुगतान में देरी करें तो किस्त रुक सकती है।
-                    </p>
-                    <span style={{ fontSize: '0.72rem', color: '#15803d', fontWeight: 600 }}>
-                      बचाव: आधा दूध सीधे घरों में और आधा ढाबों को बाँटें।
-                    </span>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -1061,10 +1040,10 @@ export default function FeasibilityDashboard({
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
                   <thead>
                     <tr style={{ background: '#f1f5f9', textAlign: 'left' }}>
-                      <th style={{ padding: '12px 16px', borderRadius: '8px 0 0 8px' }}>पैमाना</th>
-                      <th style={{ padding: '12px 16px', color: '#15803d', fontWeight: 800 }}>डेयरी उत्पाद (प्रस्तावित)</th>
-                      <th style={{ padding: '12px 16px' }}>कपड़ा व सिलाई बुटीक</th>
-                      <th style={{ padding: '12px 16px', borderRadius: '0 8px 8px 0' }}>पोल्ट्री फार्मिंग (मुर्गी पालन)</th>
+                      <th style={{ padding: '12px 16px', borderRadius: '8px 0 0 8px' }}>{isHi ? 'पैमाना' : 'Metric'}</th>
+                      <th style={{ padding: '12px 16px', color: '#15803d', fontWeight: 800 }}>{currentBizProfile.icon} {isHi ? currentBizProfile.nameHi : currentBizProfile.nameEn} {isHi ? '(प्रस्तावित)' : '(Proposed)'}</th>
+                      <th style={{ padding: '12px 16px' }}>{isHi ? 'कपड़ा व सिलाई बुटीक' : 'Garment Boutique'}</th>
+                      <th style={{ padding: '12px 16px', borderRadius: '0 8px 8px 0' }}>{isHi ? 'पोल्ट्री फार्मिंग' : 'Poultry Unit'}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1110,12 +1089,14 @@ export default function FeasibilityDashboard({
               <div className="glass-panel" style={{ padding: '32px', background: '#ffffff' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', borderBottom: '2px solid #15803d', paddingBottom: '16px' }}>
                   <div>
-                    <span className="rural-badge success" style={{ marginBottom: '4px' }}>बैंक आवेदन के लिए तैयार दस्तावेज़</span>
+                    <span className="rural-badge success" style={{ marginBottom: '4px' }}>
+                      {isHi ? 'बैंक आवेदन के लिए तैयार दस्तावेज़' : 'Bank Application Ready Document'}
+                    </span>
                     <h2 style={{ fontSize: '1.4rem', color: '#0f172a', margin: '4px 0 0 0' }}>
-                      उद्यम व्यवहार्यता एवं लोन प्रोजेक्ट रिपोर्ट
+                      {isHi ? `${currentBizProfile.nameHi} — व्यवहार्यता व लोन प्रोजेक्ट रिपोर्ट` : `${currentBizProfile.nameEn} — Feasibility & DPR`}
                     </h2>
                     <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
-                      स्थान: ग्राम पंचायत {currentVillage}, ब्लॉक {currentBlock}, {currentDistrict}
+                      {isHi ? `स्थान: ग्राम पंचायत ${currentVillage}, ब्लॉक ${currentBlock}, ${currentDistrict}` : `Location: ${currentVillage}, Block ${currentBlock}, ${currentDistrict}`}
                     </span>
                   </div>
 
@@ -1125,27 +1106,21 @@ export default function FeasibilityDashboard({
                       className="btn-primary" 
                       style={{ fontSize: '0.84rem', padding: '8px 18px' }}
                     >
-                      <Download size={15} /> रिपोर्ट प्रिंट / सेव करें
+                      <Download size={15} /> {isHi ? 'रिपोर्ट प्रिंट / सेव करें' : 'Print / Download DPR'}
                     </button>
                   </div>
                 </div>
 
                 <div style={{ marginBottom: '32px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px' }}>
                   <h4 style={{ fontSize: '1rem', color: '#0f172a', marginBottom: '8px' }}>
-                    बैंक में आवेदन करने से पहले ये 5 काम अवश्य पूरा करें:
+                    {isHi ? 'बैंक में आवेदन करने से पहले ये 5 काम अवश्य पूरा करें:' : '5 Action Steps Before Applying for Bank Loan:'}
                   </h4>
                   <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '14px' }}>
-                    इन तैयारियों से आपका लोन बिना किसी अड़चन के तुरंत स्वीकृत होगा:
+                    {isHi ? 'इन तैयारियों से आपका लोन बिना किसी अड़चन के तुरंत स्वीकृत होगा:' : 'Completing these prerequisites ensures instant sanction without hurdles:'}
                   </p>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    {[
-                      "गाँव के 10 परिवारों से सुबह ताज़ा दूध और पनीर पहुँचाने की बात तय करें।",
-                      "हाईवे के 3 ढाबों से नियमित दूध सप्लाई का मौखिक या लिखित समझौता करें।",
-                      "2 स्थानीय किसानों से हरे चारे की सप्लाई का दाम पक्का करें।",
-                      "पशु शेड की जगह और पानी की सुविधा की जाँच पूरी करें।",
-                      "आधार कार्ड, पैन कार्ड, ज़मीन की खतौनी और 6 महीने की बैंक पासबुक तैयार रखें।"
-                    ].map((act, idx) => (
+                    {currentBizProfile.checklist.map((act, idx) => (
                       <div 
                         key={idx}
                         onClick={() => toggleAction(idx)}
@@ -1171,9 +1146,15 @@ export default function FeasibilityDashboard({
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
                   <div style={{ border: '1px solid #e2e8f0', borderRadius: '10px', padding: '14px' }}>
-                    <strong style={{ fontSize: '0.82rem', color: '#64748b', display: 'block' }}>व्यापार स्कोर</strong>
-                    <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#15803d' }}>78 / 100</span>
-                    <p style={{ fontSize: '0.74rem', color: '#64748b', margin: '4px 0 0 0' }}>स्थानीय मांग और पूँजी के अनुसार उत्तम</p>
+                    <strong style={{ fontSize: '0.82rem', color: '#64748b', display: 'block' }}>
+                      {isHi ? 'व्यापार स्कोर' : 'Opportunity Score'}
+                    </strong>
+                    <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#15803d' }}>
+                      {currentBizProfile.score} / 100
+                    </span>
+                    <p style={{ fontSize: '0.74rem', color: '#64748b', margin: '4px 0 0 0' }}>
+                      {isHi ? 'स्थानीय मांग और पूँजी के अनुसार उत्तम' : 'Optimal for local market & capital'}
+                    </p>
                   </div>
 
                   <div style={{ border: '1px solid #e2e8f0', borderRadius: '10px', padding: '14px' }}>

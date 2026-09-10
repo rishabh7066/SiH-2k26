@@ -59,6 +59,17 @@ export default function HeroLanding({
       tagEn: 'Govt Subsidy',
       color: '#7c3aed',
       img: 'https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?auto=compress&cs=tinysrgb&w=800'
+    },
+    {
+      titleHi: 'पोल्ट्री व जैविक खाद यूनिट',
+      titleEn: 'Poultry & Organic Manure',
+      subHi: 'ब्रायलर/देसी पालन व त्वरित नकदी चक्र',
+      subEn: 'Broiler/Desi poultry & high turnover cycle',
+      tagHi: 'तुरंत नकदी चक्र',
+      tagEn: 'Fast Cashflow',
+      color: '#ea580c',
+      img: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80',
+      mobileOnly: true
     }
   ];
 
@@ -369,7 +380,7 @@ export default function HeroLanding({
           </p>
         </div>
 
-        {/* 4 Category Cards Grid */}
+        {/* Category Cards Grid */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(270px, 100%), 1fr))',
@@ -378,7 +389,7 @@ export default function HeroLanding({
           {categories.map((cat, idx) => (
             <div 
               key={idx} 
-              className="category-img-card"
+              className={`category-img-card ${cat.mobileOnly ? 'biz-mobile-card' : ''}`}
               onClick={onStartAssessment}
               title={isHi ? 'इस व्यापार की जाँच करें' : 'Evaluate this business'}
             >

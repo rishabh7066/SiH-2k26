@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Sparkles, 
   MapPin, 
@@ -12,19 +12,85 @@ import {
   Layers, 
   Star,
   Sliders,
-  Award
+  Award,
+  Search,
+  X
 } from 'lucide-react';
-import { BUDGET_PLANS } from '../data/mockData';
+import { BUDGET_PLANS, ALL_VILLAGES } from '../data/mockData';
+import { supabase } from '../supabaseClient';
 
 export default function AIBusinessFinder({ lang, onSelectBusiness, onStartWizard }) {
   const isHi = lang === 'hi';
 
   // State inputs
   const [budget, setBudget] = useState(100000);
+  const [villagesList, setVillagesList] = useState(ALL_VILLAGES);
   const [village, setVillage] = useState('Adampur');
+  const [villageSearch, setVillageSearch] = useState('');
   const [skills, setSkills] = useState(['dairy', 'retail']);
   const [resources, setResources] = useState(['land', 'livestock']);
   const [experience, setExperience] = useState('some');
+
+  // Sync with Supabase villages table to ensure all live villages are present
+  useEffect(() => {
+    async function fetchLiveVillages() {
+      try {
+        const { data, error } = await supabase
+          .from('villages')
+          .select('id, name, block, district, state, population');
+
+        if (!error && data && data.length > 0) {
+          setVillagesList(prev => {
+            const map = new Map();
+            // Start with base list
+            prev.forEach(v => map.set(v.name.toLowerCase().trim(), v));
+            // Merge with Supabase
+            data.forEach(dbV => {
+              const key = dbV.name.toLowerCase().trim();
+              const existing = map.get(key);
+              map.set(key, {
+                id: dbV.id || key,
+                name: dbV.name,
+                nameHi: existing?.nameHi || dbV.name,
+                block: dbV.block || existing?.block || '',
+                district: dbV.district || existing?.district || '',
+                state: dbV.state || existing?.state || '',
+                pop: dbV.population || existing?.pop || 0
+              });
+            });
+            return Array.from(map.values());
+          });
+        }
+      } catch (err) {
+        console.warn('Fallback to local villages dataset:', err);
+      }
+    }
+    fetchLiveVillages();
+  }, []);
+
+  // Filtered villages by search query
+  const filteredVillages = villagesList.filter(v => {
+    if (!villageSearch.trim()) return true;
+    const q = villageSearch.toLowerCase().trim();
+    return (
+      v.name?.toLowerCase().includes(q) ||
+      v.nameHi?.toLowerCase().includes(q) ||
+      v.block?.toLowerCase().includes(q) ||
+      v.district?.toLowerCase().includes(q)
+    );
+  });
+
+  // Group villages by district for clean UI
+  const villagesByDistrict = filteredVillages.reduce((acc, v) => {
+    const dist = v.district || 'अन्य (Other)';
+    if (!acc[dist]) acc[dist] = [];
+    acc[dist].push(v);
+    return acc;
+  }, {});
+
+  const selectedVillageObj = villagesList.find(
+    v => v.name.toLowerCase() === village.toLowerCase() || v.nameHi === village
+  ) || villagesList[0];
 
   const skillOptions = [
     { id: 'dairy', labelHi: 'दूध व पशुपालन', labelEn: 'Dairy & Livestock' },
@@ -111,18 +177,97 @@ export default function AIBusinessFinder({ lang, onSelectBusiness, onStartWizard
 
           {/* Location */}
           <div style={{ marginBottom: '22px' }}>
-            <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, color: '#334155', marginBottom: '8px' }}>
-              📍 {isHi ? 'गाँव का नाम (Village)' : 'Village Name'}
-            </label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+              <label style={{ fontSize: '0.84rem', fontWeight: 700, color: '#334155' }}>
+                📍 {isHi ? 'गाँव का नाम (Village)' : 'Village Name'}
+              </label>
+              <span style={{ fontSize: '0.74rem', fontWeight: 700, color: '#15803d', background: '#dcfce7', padding: '2px 8px', borderRadius: '12px' }}>
+                {villagesList.length} {isHi ? 'गाँव उपलब्ध' : 'Villages Available'}
+              </span>
+            </div>
+
+            {/* Quick search input */}
+            <div style={{ position: 'relative', marginBottom: '8px' }}>
+              <input 
+                type="text"
+                value={villageSearch}
+                onChange={e => setVillageSearch(e.target.value)}
+                placeholder={isHi ? '🔍 गाँव या ब्लॉक का नाम खोजें...' : '🔍 Search village or block...'}
+                style={{
+                  width: '100%',
+                  padding: '7px 32px 7px 12px',
+                  borderRadius: '8px',
+                  border: '1px solid #cbd5e1',
+                  fontSize: '0.82rem',
+                  background: '#f8fafc',
+                  outline: 'none',
+                  boxSizing: 'border-box'
+                }}
+              />
+              {villageSearch && (
+                <button
+                  type="button"
+                  onClick={() => setVillageSearch('')}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    color: '#94a3b8',
+                    cursor: 'pointer',
+                    fontSize: '0.82rem',
+                    padding: '2px'
+                  }}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
             <select 
               value={village} 
               onChange={e => setVillage(e.target.value)}
-              style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem', background: '#ffffff' }}
+              style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem', background: '#ffffff', fontWeight: 600, color: '#0f172a', cursor: 'pointer' }}
             >
-              <option value="Adampur">आदमपुर (Adampur, Sewapuri)</option>
-              <option value="Kapsethi">कपसेठी (Kapsethi, Varanasi)</option>
-              <option value="Baraki">बराकी (Baraki, Sewapuri)</option>
+              {Object.keys(villagesByDistrict).length === 0 ? (
+                <option value="">{isHi ? 'कोई गाँव नहीं मिला' : 'No village found'}</option>
+              ) : (
+                Object.entries(villagesByDistrict).map(([district, vList]) => (
+                  <optgroup key={district} label={`📍 जिला: ${district} (${vList.length})`}>
+                    {vList.map(v => (
+                      <option key={v.id || v.name} value={v.name}>
+                        {v.nameHi ? `${v.nameHi} (${v.name})` : v.name} {v.block ? `— ब्लॉक: ${v.block}` : ''}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))
+              )}
             </select>
+
+            {/* Selected Village Detail Pill */}
+            {selectedVillageObj && (
+              <div style={{
+                marginTop: '10px',
+                padding: '8px 12px',
+                background: '#f0fdf4',
+                borderRadius: '8px',
+                border: '1px solid #bbf7d0',
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px 14px',
+                fontSize: '0.76rem',
+                color: '#166534',
+                fontWeight: 600
+              }}>
+                <span>🏛️ {isHi ? 'ब्लॉक' : 'Block'}: <b>{selectedVillageObj.block || 'बस्ती सदर'}</b></span>
+                <span>📌 {isHi ? 'जिला' : 'District'}: <b>{selectedVillageObj.district || 'Basti'}</b></span>
+                {selectedVillageObj.pop && (
+                  <span>👥 {isHi ? 'आबादी' : 'Population'}: <b>{selectedVillageObj.pop.toLocaleString('en-IN')}</b></span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Budget */}
@@ -235,7 +380,7 @@ export default function AIBusinessFinder({ lang, onSelectBusiness, onStartWizard
               {isHi ? `शीर्ष अनुशंसित व्यापार (${recommendations.length})` : `Top AI Recommendations (${recommendations.length})`}
             </h3>
             <span style={{ fontSize: '0.82rem', color: '#15803d', fontWeight: 700, background: '#dcfce7', padding: '4px 10px', borderRadius: '999px' }}>
-              📍 {village}
+              📍 {selectedVillageObj ? `${selectedVillageObj.nameHi || selectedVillageObj.name} (${selectedVillageObj.district || 'Basti'})` : village}
             </span>
           </div>
 

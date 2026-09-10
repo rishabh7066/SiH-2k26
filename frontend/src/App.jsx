@@ -287,6 +287,7 @@ export default function App() {
             path="/dashboard" 
             element={
               <FeasibilityDashboard 
+                lang={lang}
                 assessmentData={assessmentData}
                 onReset={handleStartWizard}
                 onOpenGramAI={() => setIsGramAIOpen(true)}
@@ -359,6 +360,7 @@ export default function App() {
             path="/wizard" 
             element={
               <AssessmentWizard 
+                lang={lang}
                 initialState={assessmentData}
                 onComplete={handleWizardComplete}
                 onCancel={() => handleNavigate('landing')}
@@ -371,6 +373,7 @@ export default function App() {
             path="/analyzing" 
             element={
               <AnalysisLoader 
+                lang={lang}
                 onFinished={handleAnalysisFinished}
               />
             } 

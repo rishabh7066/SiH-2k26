@@ -365,7 +365,8 @@ h1, h2, h3, h4, .font-heading {
    ===================================================== */
 
 /* Default: Mobile elements hidden on desktop */
-.mobile-only {
+.mobile-only,
+.biz-mobile-card {
   display: none !important;
 }
 
@@ -402,6 +403,10 @@ h1, h2, h3, h4, .font-heading {
   }
   .mobile-only {
     display: flex !important;
+  }
+  .category-img-card.mobile-only,
+  .biz-mobile-card {
+    display: block !important;
   }
 
   /* Hero Section */
@@ -518,4 +523,148 @@ h1, h2, h3, h4, .font-heading {
     display: none !important;
   }
 }
+
+/* =====================================================
+   COMPREHENSIVE MOBILE-RESPONSIVE SYSTEM (≤ 900px)
+   Keeps PC Desktop view (>= 993px) 100% untouched!
+   ===================================================== */
+@media (max-width: 900px) {
+  /* Prevent horizontal overflow across the board */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+  }
+
+  /* Main wrapper padding adjust for small screens */
+  main {
+    padding: 12px 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Collapse any 12-column CSS grids to stacked 1 column */
+  [style*="repeat(12, 1fr)"],
+  [style*="repeat(12,1fr)"] {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  [style*="gridColumn: 'span 8'"],
+  [style*="grid-column: span 8"],
+  [style*="gridColumn: 'span 7'"],
+  [style*="grid-column: span 7"],
+  [style*="gridColumn: 'span 5'"],
+  [style*="grid-column: span 5"],
+  [style*="gridColumn: 'span 4'"],
+  [style*="grid-column: span 4"] {
+    grid-column: span 1 !important;
+    width: 100% !important;
+  }
+
+  /* Collapse 4-column metric grids into 2 columns on tablets/mobile */
+  [style*="repeat(4, 1fr)"],
+  [style*="repeat(4,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Collapse 3-column grids into 1 or 2 columns */
+  [style*="repeat(3, 1fr)"],
+  [style*="repeat(3,1fr)"] {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* Wizard container responsiveness */
+  .wizard-container,
+  [style*="maxWidth: '840px'"],
+  [style*="max-width: 840px"] {
+    max-width: 100% !important;
+    padding: 0 8px !important;
+    margin: 10px auto !important;
+  }
+
+  /* Tables horizontal scroll container */
+  table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Action button rows wrap cleanly */
+  .dashboard-action-row,
+  [style*="display: 'flex'"][style*="gap: '12px'"] {
+    flex-wrap: wrap !important;
+  }
+
+  /* Drawer / AI drawer on mobile should fill full width */
+  .gram-ai-drawer {
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+}
+
+/* =====================================================
+   ULTRA-FLEXIBLE PHONE OVERHAUL (≤ 600px)
+   ===================================================== */
+@media (max-width: 600px) {
+  /* 4-column metrics collapse to 2 columns, tightly spaced */
+  [style*="repeat(4, 1fr)"],
+  [style*="repeat(4,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  /* Capital amount slider display */
+  [style*="fontSize: '2.8rem'"],
+  [style*="font-size: 2.8rem"] {
+    font-size: 2.1rem !important;
+  }
+
+  /* Business cards in Step 3 of wizard */
+  [style*="gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))'"],
+  [style*="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))"] {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* Seasonal graph bars: enable horizontal swipe */
+  [style*="repeat(12, 1fr)"][style*="alignItems: 'flex-end'"],
+  [style*="repeat(12,1fr)"][style*="align-items: flex-end"] {
+    display: flex !important;
+    overflow-x: auto !important;
+    padding-bottom: 8px !important;
+    gap: 10px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  [style*="repeat(12, 1fr)"][style*="alignItems: 'flex-end'"] > div,
+  [style*="repeat(12,1fr)"][style*="align-items: flex-end"] > div {
+    min-width: 38px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Buttons inside footer and headers */
+  .btn-primary, .btn-secondary {
+    padding: 10px 14px !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* Wizard footer prev/next row */
+  .wizard-footer-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .wizard-footer-row > button {
+    width: 100% !important;
+  }
+
+  /* Map container height fit */
+  .leaflet-container {
+    height: 320px !important;
+  }
+}
+
 
